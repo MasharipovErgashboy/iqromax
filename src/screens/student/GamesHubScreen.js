@@ -21,7 +21,8 @@ import {
   Star,
   Users,
   Search,
-  LayoutGrid
+  LayoutGrid,
+  ChevronRight
 } from 'lucide-react-native';
 import { BlurView } from 'expo-blur';
 import StudentPremiumBackground from '../../components/StudentPremiumBackground';
@@ -63,18 +64,20 @@ const GamesHubScreen = ({ navigation }) => {
       
       <SafeAreaView style={styles.safeArea}>
         <View style={styles.topNav}>
-           <View style={styles.topNavLeft}>
-              <View style={styles.iconPill}>
-                 <LayoutGrid color={COLORS.primary} size={18} />
+           <BlurView intensity={20} tint="light" style={styles.topNavBlur}>
+              <View style={styles.topNavLeft}>
+                 <LinearGradient colors={[COLORS.primary, COLORS.primaryDark]} style={styles.iconPill}>
+                    <LayoutGrid color="white" size={20} />
+                 </LinearGradient>
+                 <View>
+                    <Text style={styles.headerTitle}>O'yinlar Olami</Text>
+                    <Text style={styles.headerSubtitle}>Bilimingizni sinovdan o'tkazing</Text>
+                 </View>
               </View>
-              <View>
-                 <Text style={styles.headerTitle}>O'yinlar</Text>
-                 <Text style={styles.headerSubtitle}>Bilim va Mahorat</Text>
-              </View>
-           </View>
-           <TouchableOpacity style={styles.searchBtn}>
-              <Search color="#64748B" size={20} />
-           </TouchableOpacity>
+              <TouchableOpacity style={styles.searchBtn}>
+                 <Search color="#64748B" size={20} />
+              </TouchableOpacity>
+           </BlurView>
         </View>
 
         <ScrollView 
@@ -180,26 +183,53 @@ const GamesHubScreen = ({ navigation }) => {
                </BlurView>
             </View>
           </View>
+          
+          <View style={[styles.sectionHeader, { marginTop: 10 }]}>
+             <Text style={styles.sectionTitle}>Maxsus Mashqlar</Text>
+          </View>
 
-          <View style={{ height: 120 }} />
+          <View style={styles.extraTools}>
+             <TouchableOpacity 
+               style={styles.toolCardLarge}
+               onPress={() => navigation.navigate('MentalArithmeticPractice')}
+             >
+                <LinearGradient 
+                  colors={['#F59E0B', '#F97316']} 
+                  style={styles.toolGradient}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 0 }}
+                >
+                   <View style={styles.toolIconCircle}>
+                      <Zap color="white" size={28} fill="white" />
+                   </View>
+                   <View style={styles.toolTextContent}>
+                      <Text style={styles.toolTitleLarge}>Tezkor Mashq</Text>
+                      <Text style={styles.toolDesc}>Xayolan hisoblash</Text>
+                   </View>
+                   <View style={styles.toolArrow}>
+                      <ChevronRight color="rgba(255,255,255,0.7)" size={20} />
+                   </View>
+                </LinearGradient>
+             </TouchableOpacity>
+
+             <TouchableOpacity 
+               style={styles.toolCardSmall}
+               onPress={() => navigation.navigate('AbacusSimulator', { mode: 'free' })}
+             >
+                <LinearGradient 
+                  colors={['#10B981', '#059669']} 
+                  style={styles.toolGradientSmall}
+                >
+                   <View style={styles.toolIconCircleSmall}>
+                      <Calculator color="white" size={24} />
+                   </View>
+                   <Text style={styles.toolLabelSmall}>Abakus</Text>
+                </LinearGradient>
+             </TouchableOpacity>
+          </View>
+
+          <View style={{ height: 40 }} />
         </ScrollView>
-
-        {/* Floating Scoreboard */}
-        <BlurView intensity={60} style={styles.floatingScore}>
-           <View style={styles.scoreContent}>
-              <View style={styles.userSection}>
-                 <Image source={{ uri: 'https://api.dicebear.com/7.x/avataaars/png?seed=Felix' }} style={styles.userAvatar} />
-                 <View>
-                    <Text style={styles.userName}>Mening natijam</Text>
-                    <Text style={styles.userRank}>Top 5% ichida</Text>
-                 </View>
-              </View>
-              <View style={styles.scoreBadge}>
-                 <Trophy color="#F59E0B" size={14} fill="#F59E0B" />
-                 <Text style={styles.scoreVal}>2,450</Text>
-              </View>
-           </View>
-        </BlurView>
       </SafeAreaView>
     </View>
   );
@@ -315,6 +345,30 @@ const styles = StyleSheet.create({
   userRank: { fontSize: 11, color: COLORS.primary, fontWeight: '700' },
   scoreBadge: { flexDirection: 'row', alignItems: 'center', gap: 6, backgroundColor: 'white', paddingHorizontal: 12, paddingVertical: 8, borderRadius: 16, ...SHADOWS.light },
   scoreVal: { fontSize: 15, fontWeight: '900', color: '#0F172A' },
+  extraTools: { flexDirection: 'row', gap: 12, marginBottom: 20 },
+  toolCardLarge: { flex: 1.8, height: 100, borderRadius: 28, overflow: 'hidden', ...SHADOWS.medium },
+  toolCardSmall: { flex: 1, height: 100, borderRadius: 28, overflow: 'hidden', ...SHADOWS.medium },
+  toolGradient: { flex: 1, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 15, gap: 12 },
+  toolGradientSmall: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 8 },
+  toolIconCircle: { width: 44, height: 44, borderRadius: 15, backgroundColor: 'rgba(255,255,255,0.2)', alignItems: 'center', justifyContent: 'center' },
+  toolIconCircleSmall: { width: 40, height: 40, borderRadius: 14, backgroundColor: 'rgba(255,255,255,0.2)', alignItems: 'center', justifyContent: 'center' },
+  toolTextContent: { flex: 1 },
+  toolTitleLarge: { color: 'white', fontSize: 16, fontWeight: '900' },
+  toolDesc: { color: 'rgba(255,255,255,0.8)', fontSize: 11, fontWeight: '600', marginTop: 1 },
+  toolArrow: { width: 24, height: 24, alignItems: 'center', justifyContent: 'center' },
+  toolLabelSmall: { color: 'white', fontSize: 13, fontWeight: '900' },
+  topNavBlur: { 
+    flexDirection: 'row', 
+    justifyContent: 'space-between', 
+    alignItems: 'center', 
+    paddingHorizontal: 15, 
+    paddingVertical: 10, 
+    marginHorizontal: 10,
+    borderRadius: 25,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.3)',
+    backgroundColor: 'rgba(255,255,255,0.5)',
+  },
 });
 
 export default GamesHubScreen;

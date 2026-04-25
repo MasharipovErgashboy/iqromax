@@ -1,9 +1,17 @@
 import React from 'react';
 import { View, Text, StyleSheet, SafeAreaView, ScrollView, Image, TouchableOpacity, Alert } from 'react-native';
 import { COLORS, SPACING, BORDER_RADIUS, SHADOWS } from '../../constants/theme.js';
-import { Settings, Shield, Bell, HelpCircle, LogOut, ChevronRight, Trophy, Star, Zap, User } from 'lucide-react-native';
+import { Settings, Shield, Bell, HelpCircle, LogOut, ChevronRight, Trophy, Star, Zap, User, Users } from 'lucide-react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import StudentPremiumBackground from '../../components/StudentPremiumBackground';
+import { useLevels } from '../../context/LevelContext.js';
+
+const AVATARS = [
+  require('../../../assets/avatar_1_new.png'),
+  require('../../../assets/avatar_2_new.png'),
+  require('../../../assets/avatar_3_new.png'),
+  require('../../../assets/avatar_4_new.png'),
+];
 
 const ProfileItem = ({ icon: Icon, title, subtitle, color, onPress, isLast = false }) => (
   <TouchableOpacity 
@@ -23,6 +31,10 @@ const ProfileItem = ({ icon: Icon, title, subtitle, color, onPress, isLast = fal
 );
 
 const ProfileScreen = ({ navigation }) => {
+  const { userProfile, userXP, rank } = useLevels();
+  const userName = userProfile.name;
+  const userAvatar = AVATARS[userProfile.avatarIndex];
+
   const handleLogout = () => {
     Alert.alert(
       "Chiqish",
@@ -46,15 +58,13 @@ const ProfileScreen = ({ navigation }) => {
         {/* Profile Header */}
         <View style={styles.header}>
           <View style={styles.avatarContainer}>
-            <LinearGradient
-              colors={[COLORS.primary, COLORS.primaryDark]}
-              style={styles.avatarGradient}
-            >
+            <View style={styles.avatarCircle}>
               <Image 
-                source={require('../../../assets/mascot.png')} 
+                source={userAvatar} 
                 style={styles.avatar}
+                resizeMode="contain"
               />
-            </LinearGradient>
+            </View>
             <TouchableOpacity 
               onPress={() => navigation.navigate('StudentSettings')}
               style={styles.editBadge}
@@ -63,7 +73,7 @@ const ProfileScreen = ({ navigation }) => {
             </TouchableOpacity>
           </View>
           
-          <Text style={styles.userName}>Azizbek Karimov</Text>
+          <Text style={styles.userName}>{userName}</Text>
           <Text style={styles.userId}>ID: 45892</Text>
         </View>
 
@@ -134,6 +144,13 @@ const ProfileScreen = ({ navigation }) => {
             onPress={() => navigation.navigate('StudentHelpCenter')}
           />
           <ProfileItem 
+            icon={Users} 
+            title="Ota-onani tasdiqlash" 
+            subtitle="Ota-ona so'rovlarini boshqarish"
+            color={COLORS.primary}
+            onPress={() => navigation.navigate('ParentRequests')}
+          />
+          <ProfileItem 
             icon={Settings} 
             title="Sozlamalar" 
             subtitle="Ilova tili va rejimi"
@@ -181,19 +198,24 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: BORDER_RADIUS.xl,
   },
   avatarContainer: {
-    padding: 4,
-    borderRadius: 65,
+    padding: 6,
+    borderRadius: 75,
     backgroundColor: COLORS.white,
     ...SHADOWS.medium,
     marginBottom: SPACING.md,
+    borderWidth: 2,
+    borderColor: COLORS.primary + '30',
   },
-  avatarGradient: {
-    width: 120,
-    height: 120,
-    borderRadius: 60,
+  avatarCircle: {
+    width: 130,
+    height: 130,
+    borderRadius: 65,
+    backgroundColor: COLORS.white,
     alignItems: 'center',
     justifyContent: 'center',
     overflow: 'hidden',
+    borderWidth: 2,
+    borderColor: COLORS.primary,
   },
   avatar: {
     width: 100,

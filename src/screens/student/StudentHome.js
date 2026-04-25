@@ -20,11 +20,17 @@ import XPProgressBar from '../../components/XPProgressBar';
 import GamifiedButton from '../../components/GamifiedButton';
 import StudentPremiumBackground from '../../components/StudentPremiumBackground';
 
-const { width } = Dimensions.get('window');
+const AVATARS = [
+  require('../../../assets/avatar_1_new.png'),
+  require('../../../assets/avatar_2_new.png'),
+  require('../../../assets/avatar_3_new.png'),
+  require('../../../assets/avatar_4_new.png'),
+];
 
 const StudentHome = ({ navigation, route }) => {
-  const userName = route.params?.user?.name || "O'quvchi";
-  const { userXP, dailyStreak, rank, currentLevel, badges } = useLevels();
+  const { userXP, dailyStreak, rank, currentLevel, badges, userProfile } = useLevels();
+  const userName = userProfile.name;
+  const userAvatar = AVATARS[userProfile.avatarIndex];
   
   // Calculate total XP needed for next level (example logic)
   const nextLevelXP = (currentLevel + 1) * 1000;
@@ -38,10 +44,13 @@ const StudentHome = ({ navigation, route }) => {
         <View style={styles.topHeader}>
           <View style={styles.profileSection}>
             <View style={styles.avatarContainer}>
-              <Image
-                source={require('../../../assets/mascot.png')}
-                style={styles.avatar}
-              />
+              <View style={styles.avatarCircle}>
+                <Image
+                  source={userAvatar}
+                  style={styles.avatar}
+                  resizeMode="contain"
+                />
+              </View>
               <View style={styles.levelBadge}>
                 <Text style={styles.levelBadgeText}>{currentLevel}</Text>
               </View>
@@ -184,12 +193,21 @@ const styles = StyleSheet.create({
     position: 'relative',
     marginRight: SPACING.md,
   },
-  avatar: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
+  avatarCircle: {
+    width: 64,
+    height: 64,
+    borderRadius: 32,
+    backgroundColor: COLORS.white,
     borderWidth: 2,
-    borderColor: COLORS.primaryLight,
+    borderColor: COLORS.primary,
+    alignItems: 'center',
+    justifyContent: 'center',
+    overflow: 'hidden',
+    ...SHADOWS.light,
+  },
+  avatar: {
+    width: 48,
+    height: 48,
   },
   levelBadge: {
     position: 'absolute',

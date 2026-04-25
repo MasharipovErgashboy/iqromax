@@ -152,19 +152,36 @@ const StudentLiveLesson = ({ navigation, route }) => {
          {/* Central Content (Mini Abacus) - Sci-Fi Design */}
          {showAbacus && (
            <Animated.View style={styles.abacusContainer}>
-              <BlurView intensity={60} tint="dark" style={styles.abacusBlur}>
+              <BlurView intensity={80} tint="dark" style={styles.abacusBlur}>
                  <View style={styles.abacusHeader}>
-                    <Calculator color={COLORS.primary} size={16} />
-                    <Text style={styles.abacusTitle}>VIRTUAL ABAKUS</Text>
+                    <View style={styles.abacusTitleBox}>
+                       <Calculator color={COLORS.primary} size={14} />
+                       <Text style={styles.abacusTitle}>USTOZ ABAKUSI</Text>
+                    </View>
                     <TouchableOpacity onPress={() => setShowAbacus(false)}>
-                       <X color="white" size={16} />
+                       <X color="white" size={18} />
                     </TouchableOpacity>
                  </View>
-                 <View style={styles.abacusMock}>
-                    <View style={styles.abacusBeam} />
-                    <View style={styles.beadsRow}>
-                       {[1, 2, 3, 4, 5, 6].map(i => <View key={i} style={[styles.bead, i === 2 && { backgroundColor: '#F59E0B' }]} />)}
-                    </View>
+                 
+                 <View style={styles.liveAbacusFrame}>
+                    {[1, 2, 3, 4, 5].map((col) => (
+                      <View key={col} style={styles.abacusCol}>
+                         <View style={styles.abacusRod} />
+                         <View style={styles.upperBeadSlot}>
+                            <View style={[styles.miniBead, col === 3 && styles.activeBead]} />
+                         </View>
+                         <View style={styles.abacusDivider} />
+                         <View style={styles.lowerBeadsSlot}>
+                            {[1, 2, 3, 4].map((bead) => (
+                              <View key={bead} style={[styles.miniBead, col === 3 && bead <= 2 && styles.activeBead]} />
+                            ))}
+                         </View>
+                      </View>
+                    ))}
+                 </View>
+
+                 <View style={styles.abacusValueBox}>
+                    <Text style={styles.abacusValueText}>Hozirgi hisob: 52</Text>
                  </View>
               </BlurView>
            </Animated.View>
@@ -257,14 +274,40 @@ const styles = StyleSheet.create({
   emojiLayer: { position: 'absolute', bottom: 180, right: 30, height: 300, width: 100, zIndex: 10, pointerEvents: 'none' },
   floatingEmoji: { fontSize: 32, position: 'absolute', bottom: 0 },
 
-  abacusContainer: { position: 'absolute', top: 120, right: 20, width: 220, borderRadius: 24, overflow: 'hidden', borderWidth: 1, borderColor: 'rgba(255,255,255,0.2)', ...SHADOWS.large },
-  abacusBlur: { padding: 20 },
-  abacusHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 },
-  abacusTitle: { color: 'white', fontSize: 10, fontWeight: '900', letterSpacing: 2, flex: 1, marginLeft: 10 },
-  abacusMock: { height: 80, justifyContent: 'center' },
-  abacusBeam: { height: 3, backgroundColor: 'rgba(255,255,255,0.2)', borderRadius: 2 },
-  beadsRow: { flexDirection: 'row', justifyContent: 'space-around', marginTop: 15 },
-  bead: { width: 18, height: 18, backgroundColor: COLORS.primary, borderRadius: 9, borderWidth: 2, borderColor: 'rgba(255,255,255,0.2)' },
+  abacusContainer: { 
+    position: 'absolute', 
+    top: 100, 
+    right: 20, 
+    width: 200, 
+    borderRadius: 24, 
+    overflow: 'hidden', 
+    borderWidth: 1, 
+    borderColor: 'rgba(255,255,255,0.2)', 
+    ...SHADOWS.large 
+  },
+  abacusBlur: { padding: 15 },
+  abacusHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 15 },
+  abacusTitleBox: { flexDirection: 'row', alignItems: 'center', gap: 8 },
+  abacusTitle: { color: 'white', fontSize: 10, fontWeight: '900', letterSpacing: 1.5 },
+  liveAbacusFrame: { 
+    height: 120, 
+    backgroundColor: 'rgba(15, 23, 42, 0.5)', 
+    borderRadius: 12, 
+    flexDirection: 'row', 
+    justifyContent: 'space-around',
+    padding: 8,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.1)'
+  },
+  abacusCol: { width: 24, alignItems: 'center' },
+  abacusRod: { position: 'absolute', width: 2, height: '100%', backgroundColor: 'rgba(255,255,255,0.2)', borderRadius: 1 },
+  upperBeadSlot: { height: 30, justifyContent: 'flex-start', paddingTop: 2 },
+  abacusDivider: { width: '100%', height: 4, backgroundColor: '#1E293B', borderRadius: 2, marginVertical: 4 },
+  lowerBeadsSlot: { flex: 1, justifyContent: 'flex-end', paddingBottom: 2, gap: 2 },
+  miniBead: { width: 18, height: 10, backgroundColor: '#94A3B8', borderRadius: 4, borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)' },
+  activeBead: { backgroundColor: COLORS.primary, borderColor: 'white' },
+  abacusValueBox: { marginTop: 12, alignItems: 'center' },
+  abacusValueText: { color: COLORS.primaryLight, fontSize: 11, fontWeight: '800' },
 
   footer: { position: 'absolute', bottom: 0, left: 0, right: 0, paddingBottom: Platform.OS === 'ios' ? 40 : 25 },
   chatWrapper: { height: 220, paddingHorizontal: 20, marginBottom: 15 },

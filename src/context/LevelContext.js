@@ -70,6 +70,15 @@ export const LevelProvider = ({ children }) => {
     return Math.floor(userXP / 500) + 1; // Har 500 XP da level
   };
 
+  const [userProfile, setUserProfile] = useState({
+    name: "O'quvchi",
+    avatarIndex: 0
+  });
+
+  const updateUserProfile = (name, avatarIndex) => {
+    setUserProfile({ name, avatarIndex });
+  };
+
   return (
     <LevelContext.Provider 
       value={{ 
@@ -79,6 +88,7 @@ export const LevelProvider = ({ children }) => {
         userXP,
         dailyStreak,
         badges,
+        userProfile,
         rank: getRank(),
         currentLevel: getCurrentLevel(),
         unlockLevel, 
@@ -88,6 +98,7 @@ export const LevelProvider = ({ children }) => {
         addXP,
         updateStreak,
         earnBadge,
+        updateUserProfile,
         setSubscriptionStatus
       }}
     >

@@ -21,7 +21,14 @@ const TOTAL_NUMBERS = 10;
 const DISPLAY_DURATION = 1200;
 const ANSWER_TIMEOUT = 10; // 10 seconds
 
-const MentalArithmeticGame = ({ navigation }) => {
+const MentalArithmeticGame = ({ navigation, route }) => {
+  const { config } = route.params || {};
+  const gameConfig = {
+    totalNumbers: config?.count || 10,
+    displayDuration: config?.speed || 1200,
+    range: config?.range || 1
+  };
+
   const [gameState, setGameState] = useState('idle'); // idle, playing, answering, result
   const [currentNumber, setCurrentNumber] = useState(null);
   const [correctSum, setCorrectSum] = useState(0);
@@ -30,6 +37,7 @@ const MentalArithmeticGame = ({ navigation }) => {
   const [feedback, setFeedback] = useState({ visible: false, type: 'success', text: '' });
   const [timeLeft, setTimeLeft] = useState(ANSWER_TIMEOUT);
   const [selectedOption, setSelectedOption] = useState(null);
+  const [userAnswer, setUserAnswer] = useState('');
   
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const scaleAnim = useRef(new Animated.Value(0.5)).current;
@@ -65,7 +73,7 @@ const MentalArithmeticGame = ({ navigation }) => {
   };
 
   const nextNumber = useCallback((index, currentSum) => {
-    if (index >= TOTAL_NUMBERS) {
+    if (index >= gameConfig.totalNumbers) {
       setTimeout(() => {
         setGameState('answering');
         generateOptions(currentSum);
@@ -74,9 +82,15 @@ const MentalArithmeticGame = ({ navigation }) => {
       return;
     }
 
-    const randomNum = Math.floor(Math.random() * 9) + 1;
-    const sign = Math.random() > 0.4 ? 1 : -1;
-    const val = randomNum * sign;
+    let val;
+    if (gameConfig.range === 1) {
+      val = (Math.floor(Math.random() * 9) + 1) * (Math.random() > 0.4 ? 1 : -1);
+    } else if (gameConfig.range === 2) {
+      val = (Math.floor(Math.random() * 90) + 10) * (Math.random() > 0.4 ? 1 : -1);
+    } else {
+      val = (Math.floor(Math.random() * 99) + 1) * (Math.random() > 0.4 ? 1 : -1);
+    }
+    
     const newSum = currentSum + val;
     
     setStep(index + 1);
@@ -97,14 +111,15 @@ const MentalArithmeticGame = ({ navigation }) => {
       Animated.timing(fadeAnim, { toValue: 0, duration: 200, useNativeDriver: true }).start(() => {
         nextNumber(index + 1, newSum);
       });
-    }, DISPLAY_DURATION);
-  }, [fadeAnim, scaleAnim, slideAnim, startTimer]);
+    }, gameConfig.displayDuration);
+  }, [fadeAnim, scaleAnim, slideAnim, startTimer, gameConfig]);
 
   const startGame = () => {
     setGameState('playing');
     setCorrectSum(0);
     setStep(0);
     setSelectedOption(null);
+    setUserAnswer('');
     nextNumber(0, 0);
   };
 
@@ -120,19 +135,53 @@ const MentalArithmeticGame = ({ navigation }) => {
     setOptions(opts.sort(() => Math.random() - 0.5));
   };
 
-  const handleAnswer = (selected, isTimeout = false) => {
+  const handleAnswer = (finalAnswer) => {
     stopTimer();
-    setSelectedOption(selected);
+    const numericAnswer = parseInt(finalAnswer);
+    setSelectedOption(numericAnswer);
     
-    if (isTimeout) {
+    if (finalAnswer === null) {
       Vibration.vibrate(500);
       setFeedback({ visible: true, type: 'error', text: 'VAQT TUGADI!\nJAVOB: ' + correctSum });
-    } else if (selected === correctSum) {
+    } else if (numericAnswer === correctSum) {
       setFeedback({ visible: true, type: 'success', text: 'DAHSHAT!\nTO\'G\'RI JAVOB' });
     } else {
       Vibration.vibrate(300);
       setFeedback({ visible: true, type: 'error', text: 'XATO!\nTO\'G\'RI JAVOB: ' + correctSum });
     }
+  };
+
+  const handleKeyPress = (key) => {
+    if (key === 'delete') {
+      setUserAnswer(prev => prev.slice(0, -1));
+    } else if (key === 'minus') {
+      setUserAnswer(prev => prev.startsWith('-') ? prev.slice(1) : '-' + prev);
+    } else {
+      if (userAnswer.length < 6) {
+        setUserAnswer(prev => prev + key);
+      }
+    }
+  };
+
+  const NumericKeypad = () => {
+    const keys = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '-', '0', 'delete'];
+    return (
+      <View style={styles.keypadGrid}>
+        {keys.map((key) => (
+          <TouchableOpacity 
+            key={key} 
+            style={[styles.keyBtn, key === 'delete' && styles.deleteBtn]}
+            onPress={() => key === 'delete' ? handleKeyPress('delete') : (key === '-' ? handleKeyPress('minus') : handleKeyPress(key))}
+          >
+            {key === 'delete' ? (
+              <RotateCcw color="#EF4444" size={24} />
+            ) : (
+              <Text style={styles.keyText}>{key}</Text>
+            )}
+          </TouchableOpacity>
+        ))}
+      </View>
+    );
   };
 
   useEffect(() => {
@@ -167,7 +216,7 @@ const MentalArithmeticGame = ({ navigation }) => {
                    <Zap color={COLORS.primary} size={60} fill={COLORS.primary} />
                 </View>
                 <Text style={styles.heroTitle}>Tayyormisiz?</Text>
-                <Text style={styles.heroSub}>{TOTAL_NUMBERS} ta son ketma-ket chiqadi. Javob uchun 10 soniya bor!</Text>
+                <Text style={styles.heroSub}>{gameConfig.totalNumbers} ta son ketma-ket chiqadi. Javob uchun 10 soniya bor!</Text>
                 <TouchableOpacity style={styles.startBtn} onPress={startGame}>
                   <Play color="white" fill="white" size={24} />
                   <Text style={styles.startBtnText}>BOSHLASH</Text>
@@ -178,7 +227,7 @@ const MentalArithmeticGame = ({ navigation }) => {
             {gameState === 'playing' && (
               <View style={styles.playingArea}>
                 <View style={styles.stepContainer}>
-                   <Text style={styles.stepText}>{step} / {TOTAL_NUMBERS}</Text>
+                   <Text style={styles.stepText}>{step} / {gameConfig.totalNumbers}</Text>
                 </View>
                 <Animated.View style={[
                   styles.numberBox,
@@ -214,29 +263,25 @@ const MentalArithmeticGame = ({ navigation }) => {
                    </View>
                 </View>
 
-                <Text style={styles.questionText}>Javobingiz qanday?</Text>
-                
-                <View style={styles.optionsGrid}>
-                  {options.map((opt, i) => (
-                    <TouchableOpacity 
-                      key={i} 
-                      disabled={selectedOption !== null}
-                      style={[
-                        styles.optionBtn,
-                        selectedOption === opt && opt === correctSum && styles.correctOption,
-                        selectedOption === opt && opt !== correctSum && styles.wrongOption,
-                        selectedOption !== null && opt === correctSum && styles.correctOptionHighlight
-                      ]}
-                      onPress={() => handleAnswer(opt)}
-                    >
-                      <Text style={[
-                        styles.optionText,
-                        selectedOption === opt && { color: 'white' },
-                        selectedOption !== null && opt === correctSum && { color: 'white' }
-                      ]}>{opt}</Text>
-                    </TouchableOpacity>
-                  ))}
+                <View style={styles.answerDisplay}>
+                   <Text style={styles.answerLabel}>Javobingizni kiriting:</Text>
+                   <View style={styles.inputBox}>
+                      <Text style={[styles.inputText, !userAnswer && styles.placeholderText]}>
+                        {userAnswer || '?'}
+                      </Text>
+                   </View>
                 </View>
+                
+                <NumericKeypad />
+
+                <TouchableOpacity 
+                  style={[styles.submitBtn, !userAnswer && styles.disabledSubmit]} 
+                  disabled={!userAnswer}
+                  onPress={() => handleAnswer(userAnswer)}
+                >
+                   <Text style={styles.submitBtnText}>TASDIQLASH</Text>
+                   <Zap color="white" size={18} fill="white" />
+                </TouchableOpacity>
 
                 {selectedOption !== null && selectedOption !== correctSum && (
                    <View style={styles.errorHint}>
@@ -331,29 +376,46 @@ const styles = StyleSheet.create({
   stepText: { fontSize: 18, fontWeight: '900', color: COLORS.primary },
   numberBox: { alignItems: 'center', justifyContent: 'center' },
   numberText: { fontSize: 140, fontWeight: '900' },
-  answerArea: { alignItems: 'center' },
-  timerHeader: { width: '100%', marginBottom: 30, alignItems: 'center' },
-  timerInfo: { flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: 8 },
-  timerText: { fontSize: 18, fontWeight: '900', color: COLORS.primary },
-  timerBarBg: { width: '100%', height: 8, backgroundColor: '#E2E8F0', borderRadius: 4, overflow: 'hidden' },
-  timerBarFill: { height: '100%', borderRadius: 4 },
-  questionText: { fontSize: 26, fontWeight: '900', color: '#0F172A', marginBottom: 30 },
-  optionsGrid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: 20 },
-  optionBtn: {
-    width: (width - 90) / 2,
-    height: 90,
-    backgroundColor: 'white',
-    borderRadius: 22,
-    alignItems: 'center',
+  answerDisplay: { width: '100%', alignItems: 'center', marginBottom: 25 },
+  answerLabel: { fontSize: 14, fontWeight: '700', color: '#64748B', marginBottom: 10, textTransform: 'uppercase', letterSpacing: 1 },
+  inputBox: { 
+    width: '100%', 
+    height: 70, 
+    backgroundColor: 'white', 
+    borderRadius: 20, 
+    alignItems: 'center', 
     justifyContent: 'center',
     ...SHADOWS.medium,
-    borderWidth: 1,
-    borderColor: '#F1F5F9',
+    borderWidth: 2,
+    borderColor: COLORS.primary + '30'
   },
-  optionText: { fontSize: 30, fontWeight: '900', color: '#1E293B' },
-  correctOption: { backgroundColor: '#10B981', borderColor: '#10B981' },
-  wrongOption: { backgroundColor: '#EF4444', borderColor: '#EF4444' },
-  correctOptionHighlight: { backgroundColor: '#10B981', borderColor: '#10B981' },
+  inputText: { fontSize: 36, fontWeight: '900', color: '#0F172A' },
+  placeholderText: { color: '#CBD5E1' },
+  keypadGrid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: 12, marginBottom: 25 },
+  keyBtn: {
+    width: (width - 100) / 3,
+    height: 60,
+    backgroundColor: 'white',
+    borderRadius: 18,
+    alignItems: 'center',
+    justifyContent: 'center',
+    ...SHADOWS.light,
+  },
+  deleteBtn: { backgroundColor: '#FEF2F2' },
+  keyText: { fontSize: 24, fontWeight: '800', color: '#1E293B' },
+  submitBtn: {
+    width: '100%',
+    height: 65,
+    backgroundColor: COLORS.primary,
+    borderRadius: 22,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 12,
+    ...SHADOWS.medium,
+  },
+  submitBtnText: { color: 'white', fontSize: 18, fontWeight: '900', letterSpacing: 1 },
+  disabledSubmit: { opacity: 0.5, backgroundColor: '#94A3B8' },
   errorHint: { flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: 25, backgroundColor: '#FEF2F2', paddingHorizontal: 20, paddingVertical: 10, borderRadius: 15 },
   errorHintText: { color: '#EF4444', fontWeight: '800', fontSize: 14 },
 });

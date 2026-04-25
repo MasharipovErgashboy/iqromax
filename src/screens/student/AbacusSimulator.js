@@ -25,7 +25,8 @@ import {
   Info,
   Clock,
   Volume2,
-  Trophy
+  Trophy,
+  Calculator
 } from 'lucide-react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
@@ -123,9 +124,12 @@ const AbacusColumn = ({ value, onBeadPress, colIndex }) => {
   );
 };
 
-const AbacusSimulator = ({ navigation }) => {
+const AbacusSimulator = ({ navigation, route }) => {
+  const { mode = 'level' } = route.params || {};
+  const isFreeMode = mode === 'free';
+
   const { unlockLevel, addXP, updateStreak, earnBadge } = useLevels();
-  const [columns, setColumns] = useState([0, 0, 0, 0, 7, 3, 1]);
+  const [columns, setColumns] = useState(isFreeMode ? [0, 0, 0, 0, 0, 0, 0] : [0, 0, 0, 0, 7, 3, 1]);
   const [task, setTask] = useState({ target: 1250, time: '02:45' });
   const [isSuccess, setIsSuccess] = useState(false);
   
@@ -171,7 +175,7 @@ const AbacusSimulator = ({ navigation }) => {
   }, [columns]);
 
   useEffect(() => {
-    if (totalValue === task.target && !isSuccess) {
+    if (!isFreeMode && totalValue === task.target && !isSuccess) {
       setIsSuccess(true);
       // Muvaffaqiyat animatsiyasi
       Animated.sequence([
@@ -206,22 +210,32 @@ const AbacusSimulator = ({ navigation }) => {
            </TouchableOpacity>
 
            <View style={styles.questCard}>
-              <View style={styles.questTop}>
-                 <View style={styles.targetBadge}>
-                    <Target color={COLORS.primary} size={14} />
-                    <Text style={styles.targetLabel}>Target: {task.target}</Text>
-                 </View>
-                 <View style={styles.timerBadge}>
-                    <Clock color="#64748B" size={14} />
-                    <Text style={styles.timerText}>{task.time}</Text>
-                 </View>
-              </View>
-              <View style={styles.questProgressBg}>
-                 <LinearGradient 
-                   colors={[COLORS.primary, COLORS.primaryDark]} 
-                   style={[styles.questProgressFill, { width: `${(totalValue / task.target) * 100}%` }]} 
-                 />
-              </View>
+              {isFreeMode ? (
+                <View style={styles.freeModeHeader}>
+                   <Calculator color={COLORS.primary} size={18} />
+                   <Text style={styles.freeModeTitle}>Abakus Kalkulyatori</Text>
+                   <Text style={styles.freeModeSub}>Erkin hisoblash rejimi</Text>
+                </View>
+              ) : (
+                <>
+                  <View style={styles.questTop}>
+                    <View style={styles.targetBadge}>
+                        <Target color={COLORS.primary} size={14} />
+                        <Text style={styles.targetLabel}>Target: {task.target}</Text>
+                    </View>
+                    <View style={styles.timerBadge}>
+                        <Clock color="#64748B" size={14} />
+                        <Text style={styles.timerText}>{task.time}</Text>
+                    </View>
+                  </View>
+                  <View style={styles.questProgressBg}>
+                    <LinearGradient 
+                      colors={[COLORS.primary, COLORS.primaryDark]} 
+                      style={[styles.questProgressFill, { width: `${(totalValue / task.target) * 100}%` }]} 
+                    />
+                  </View>
+                </>
+              )}
            </View>
 
            <TouchableOpacity onPress={resetAbacus} style={styles.iconBtn}>
@@ -238,7 +252,7 @@ const AbacusSimulator = ({ navigation }) => {
            <Animated.View style={[styles.hologramDisplay, { transform: [{ scale: successAnim }] }]}>
               <Animated.View style={[styles.scanLine, { transform: [{ translateY: scanLineTranslate }] }]} />
               <Text style={styles.hologramValue}>{totalValue.toLocaleString()}</Text>
-              <Text style={styles.hologramSub}>HISOB-KITOBLAR</Text>
+              <Text style={styles.hologramSub}>{isFreeMode ? 'NATIJA' : 'HISOB-KITOBLAR'}</Text>
            </Animated.View>
         </View>
 
@@ -287,13 +301,13 @@ const AbacusSimulator = ({ navigation }) => {
               </TouchableOpacity>
            </View>
 
-           <TouchableOpacity activeOpacity={0.9} style={styles.mainStartBtn}>
+           <TouchableOpacity activeOpacity={0.9} style={styles.mainStartBtn} onPress={() => !isFreeMode && navigation.navigate('AbacusLevels')}>
               <LinearGradient
                 colors={['#1E293B', '#0F172A']}
                 style={styles.startGradient}
               >
                   <Zap color={COLORS.secondary} fill={COLORS.secondary} size={28} />
-                  <Text style={styles.startLabel}>LEVELGA O'TISH</Text>
+                  <Text style={styles.startLabel}>{isFreeMode ? 'MASHQ QILISH' : "LEVELGA O'TISH"}</Text>
               </LinearGradient>
            </TouchableOpacity>
 
@@ -415,6 +429,9 @@ const styles = StyleSheet.create({
     height: '100%',
     borderRadius: 4,
   },
+  freeModeHeader: { alignItems: 'center', justifyContent: 'center' },
+  freeModeTitle: { fontSize: 16, fontWeight: '900', color: '#0F172A', marginTop: 4 },
+  freeModeSub: { fontSize: 11, fontWeight: '700', color: COLORS.primary, letterSpacing: 1, textTransform: 'uppercase' },
   hudArea: {
     alignItems: 'center',
     justifyContent: 'center',

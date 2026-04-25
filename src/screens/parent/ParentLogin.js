@@ -16,7 +16,8 @@ import { User, Lock, ArrowLeft, Eye, EyeOff, ShieldCheck, CheckCircle2 } from 'l
 import { LinearGradient } from 'expo-linear-gradient';
 
 const ParentLogin = ({ navigation }) => {
-  const [username, setUsername] = useState('');
+  const [fullName, setFullName] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPass, setShowPass] = useState(false);
@@ -26,22 +27,28 @@ const ParentLogin = ({ navigation }) => {
   const isPasswordMatch = isSetupMode && password.length > 0 && password === confirmPassword;
 
   const handleRegister = () => {
-    if (!username || !password) {
-      alert("Iltimos, barcha maydonlarni to'ldiring");
-      return;
+    if (isSetupMode) {
+      if (!fullName || !phoneNumber || !password) {
+        alert("Iltimos, barcha maydonlarni to'ldiring");
+        return;
+      }
+    } else {
+      if (!phoneNumber || !password) {
+        alert("Iltimos, barcha maydonlarni to'ldiring");
+        return;
+      }
     }
     
     setIsLoading(true);
     
-    // Simulate ID Generation & Profile Creation
+    // Simulate navigation to OTP
     setTimeout(() => {
-      const generatedID = `PR-${Math.floor(100000 + Math.random() * 900000)}`;
       setIsLoading(false);
-      navigation.navigate('ParentDashboard', { 
-        parentID: generatedID,
-        username: username 
+      navigation.navigate('ParentOTP', { 
+        phoneNumber: phoneNumber,
+        fullName: fullName
       });
-    }, 1500);
+    }, 1000);
   };
 
   return (
@@ -72,7 +79,7 @@ const ParentLogin = ({ navigation }) => {
             </Text>
             <Text style={styles.subtitle}>
               {isSetupMode 
-                ? "Farzandingiz hisobiga ulanish uchun quyidagi ma'lumotlarni to'ldiring" 
+                ? "Tizimdan foydalanish uchun quyidagi ma'lumotlarni to'ldiring" 
                 : "Farzandingiz progressini kuzatish uchun profilingizga kiring"}
             </Text>
           </View>
@@ -80,21 +87,40 @@ const ParentLogin = ({ navigation }) => {
           {/* Form Section */}
           <View style={styles.formCard}>
             <View style={styles.inputGroup}>
-              <Text style={styles.inputLabel}>Farzandingiz Username'si</Text>
+              {isSetupMode && (
+                <>
+                  <Text style={styles.inputLabel}>Ism va Familyangiz</Text>
+                  <View style={styles.inputWrapper}>
+                    <View style={styles.iconBox}>
+                      <User color={COLORS.accent} size={20} />
+                    </View>
+                    <TextInput
+                      style={styles.input}
+                      placeholder="Masalan: Ergashboy Masharipov"
+                      value={fullName}
+                      onChangeText={setFullName}
+                      placeholderTextColor={COLORS.gray[400]}
+                    />
+                  </View>
+                </>
+              )}
+
+              <Text style={styles.inputLabel}>Telefon raqamingiz</Text>
               <View style={styles.inputWrapper}>
                 <View style={styles.iconBox}>
-                  <User color={COLORS.accent} size={20} />
+                  <Text style={{ fontSize: 16, fontWeight: '700', color: COLORS.accent }}>+998</Text>
                 </View>
                 <TextInput
                   style={styles.input}
-                  placeholder="masalan: azizbek_2012"
-                  value={username}
-                  onChangeText={setUsername}
+                  placeholder="90 123 45 67"
+                  value={phoneNumber}
+                  onChangeText={setPhoneNumber}
+                  keyboardType="phone-pad"
                   placeholderTextColor={COLORS.gray[400]}
                 />
               </View>
 
-              <Text style={styles.inputLabel}>Yangi parolingiz</Text>
+              <Text style={styles.inputLabel}>Parolingiz</Text>
               <View style={styles.inputWrapper}>
                 <View style={styles.iconBox}>
                   <Lock color={COLORS.accent} size={20} />
@@ -159,7 +185,7 @@ const ParentLogin = ({ navigation }) => {
             >
               <Text style={styles.toggleText}>
                 {isSetupMode 
-                  ? "Profiliz bormi? Kirish" 
+                  ? "Profilingiz bormi? Kirish" 
                   : "Yangi foydalanuvchimisiz? Ro'yxatdan o'ting"}
               </Text>
             </TouchableOpacity>

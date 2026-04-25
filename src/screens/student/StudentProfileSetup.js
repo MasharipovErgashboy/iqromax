@@ -14,25 +14,31 @@ import {
 import { COLORS, SPACING, BORDER_RADIUS, SHADOWS } from '../../constants/theme.js';
 import { Camera, Check, ArrowRight } from 'lucide-react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useLevels } from '../../context/LevelContext.js';
 
 const AVATARS = [
-  require('../../../assets/mascot.png'),
-  require('../../../assets/avatar_blue.png'),
-  require('../../../assets/avatar_red.png'),
-  require('../../../assets/avatar_yellow.png'),
+  require('../../../assets/avatar_1_new.png'),
+  require('../../../assets/avatar_2_new.png'),
+  require('../../../assets/avatar_3_new.png'),
+  require('../../../assets/avatar_4_new.png'),
 ];
 
 const StudentProfileSetup = ({ navigation }) => {
   const [username, setUsername] = useState('');
   const [selectedAvatar, setSelectedAvatar] = useState(0);
+  const { updateUserProfile } = useLevels();
 
   const handleContinue = () => {
     if (username.trim().length < 3) {
       alert("Iltimos, ismingizni kiriting (kamida 3 ta belgi)");
       return;
     }
-    // Navigate to OTP
-    navigation.navigate('StudentOTP', { username, avatarIndex: selectedAvatar });
+    
+    // Save to context
+    updateUserProfile(username, selectedAvatar);
+    
+    // Navigate to OTP (or directly to Dashboard for now if user wants)
+    navigation.navigate('StudentDashboard');
   };
 
   return (
@@ -43,22 +49,30 @@ const StudentProfileSetup = ({ navigation }) => {
       >
         <ScrollView contentContainerStyle={styles.scrollContent}>
           
+          {/* Step Progress Bar */}
+          <View style={styles.progressContainer}>
+            <View style={styles.progressBar}>
+              <View style={[styles.progressFill, { width: '33.3%' }]} />
+            </View>
+            <View style={styles.progressTextContainer}>
+              <Text style={styles.progressStepText}>1-bosqich: Qahramonni tanlash</Text>
+              <Text style={styles.progressTotalText}>1 / 3</Text>
+            </View>
+          </View>
+
           <View style={styles.header}>
-            <Text style={styles.title}>Profilingizni yarating</Text>
-            <Text style={styles.subtitle}>O'zingizga yoqadigan rasm va ism tanlang</Text>
+            <Text style={styles.title}>O'z qahramoningni tanla</Text>
+            <Text style={styles.subtitle}>Qahramon va ism tanlang</Text>
           </View>
 
           {/* Avatar Selection */}
           <View style={styles.avatarSection}>
             <View style={styles.mainAvatarContainer}>
-              <LinearGradient
-                colors={[COLORS.primary, COLORS.primaryDark]}
-                style={styles.mainAvatarGradient}
-              >
+              <View style={styles.mainAvatarCircle}>
                 <Image source={AVATARS[selectedAvatar]} style={styles.mainAvatar} />
-              </LinearGradient>
+              </View>
               <View style={styles.cameraIcon}>
-                <Camera color={COLORS.white} size={16} />
+                <Camera color={COLORS.white} size={18} />
               </View>
             </View>
 
@@ -129,96 +143,143 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     flexGrow: 1,
-    padding: SPACING.xl,
+    padding: SPACING.lg,
+    paddingBottom: SPACING.xl,
   },
-  header: {
-    marginTop: SPACING.lg,
+  progressContainer: {
+    marginBottom: SPACING.lg,
+  },
+  progressBar: {
+    height: 8,
+    backgroundColor: COLORS.gray[100],
+    borderRadius: 4,
+    overflow: 'hidden',
+    marginBottom: 8,
+  },
+  progressFill: {
+    height: '100%',
+    backgroundColor: COLORS.primary,
+    borderRadius: 4,
+  },
+  progressTextContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
   },
+  progressStepText: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: COLORS.gray[500],
+  },
+  progressTotalText: {
+    fontSize: 12,
+    fontWeight: '800',
+    color: COLORS.primary,
+  },
+  header: {
+    marginTop: SPACING.md,
+    alignItems: 'center',
+    marginBottom: SPACING.md,
+  },
   title: {
-    fontSize: 28,
+    fontSize: 26,
     fontWeight: '900',
-    color: COLORS.gray[900],
+    color: COLORS.primary,
     textAlign: 'center',
+    letterSpacing: -0.5,
   },
   subtitle: {
-    fontSize: 16,
-    color: COLORS.gray[500],
+    fontSize: 15,
+    color: '#64748b',
     textAlign: 'center',
     marginTop: 8,
+    fontWeight: '600',
   },
   avatarSection: {
     alignItems: 'center',
     marginVertical: SPACING.xxl,
   },
   mainAvatarContainer: {
-    width: 130,
-    height: 130,
-    borderRadius: 65,
-    padding: 5,
+    width: 150,
+    height: 150,
+    borderRadius: 75,
     backgroundColor: COLORS.white,
     ...SHADOWS.medium,
     marginBottom: SPACING.xl,
+    padding: 6,
+    borderWidth: 2,
+    borderColor: COLORS.primary + '30',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  mainAvatarGradient: {
+  mainAvatarCircle: {
     width: '100%',
     height: '100%',
-    borderRadius: 60,
+    borderRadius: 70,
+    backgroundColor: COLORS.white,
     alignItems: 'center',
     justifyContent: 'center',
     overflow: 'hidden',
+    borderWidth: 2,
+    borderColor: COLORS.primary,
   },
   mainAvatar: {
-    width: 100,
-    height: 100,
+    width: 110,
+    height: 110,
   },
   cameraIcon: {
     position: 'absolute',
-    bottom: 5,
-    right: 5,
+    bottom: 0,
+    right: 0,
     backgroundColor: COLORS.secondary,
-    width: 32,
-    height: 32,
-    borderRadius: 16,
+    width: 38,
+    height: 38,
+    borderRadius: 19,
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: 3,
+    borderWidth: 4,
     borderColor: COLORS.white,
+    ...SHADOWS.medium,
   },
   avatarList: {
     flexDirection: 'row',
-    gap: 15,
+    gap: 12,
+    paddingHorizontal: 10,
   },
   avatarThumb: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
+    width: 68,
+    height: 68,
+    borderRadius: 34,
+    backgroundColor: '#F8FAFC',
     borderWidth: 2,
     borderColor: COLORS.gray[100],
-    padding: 2,
     alignItems: 'center',
     justifyContent: 'center',
+    ...SHADOWS.light,
   },
   selectedThumb: {
     borderColor: COLORS.primary,
-    backgroundColor: COLORS.primary + '10',
+    backgroundColor: COLORS.white,
+    ...SHADOWS.medium,
+    transform: [{ scale: 1.05 }],
   },
   thumbImage: {
-    width: 45,
-    height: 45,
+    width: 52,
+    height: 52,
   },
   checkBadge: {
     position: 'absolute',
-    top: -2,
-    right: -2,
+    top: -5,
+    right: -5,
     backgroundColor: COLORS.primary,
-    width: 18,
-    height: 18,
-    borderRadius: 9,
+    width: 22,
+    height: 22,
+    borderRadius: 11,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 2,
     borderColor: COLORS.white,
+    ...SHADOWS.light,
   },
   inputSection: {
     marginTop: SPACING.md,

@@ -17,6 +17,7 @@ import AbacusSimulator from '../screens/student/AbacusSimulator.js';
 import StudentCompetitionDetail from '../screens/student/StudentCompetitionDetail.js';
 import CompetitionArena from '../screens/student/CompetitionArena.js';
 import MentalArithmeticGame from '../screens/student/MentalArithmeticGame.js';
+import MentalArithmeticPractice from '../screens/student/MentalArithmeticPractice.js';
 import MentalPowerLevelsScreen from '../screens/student/MentalPowerLevelsScreen.js';
 import StudentCourseCurriculum from '../screens/student/StudentCourseCurriculum.js';
 import StudentVideoLesson from '../screens/student/StudentVideoLesson.js';
@@ -35,8 +36,11 @@ import StudentSecurity from '../screens/student/StudentSecurity.js';
 import StudentHelpCenter from '../screens/student/StudentHelpCenter.js';
 import StudentSettings from '../screens/student/StudentSettings.js';
 import LeaderboardScreen from '../screens/student/LeaderboardScreen.js';
+import ParentRequestsScreen from '../screens/student/ParentRequestsScreen.js';
 import StudentTabNavigator from './StudentTabNavigator.js';
 import ParentLogin from '../screens/parent/ParentLogin.js';
+import ParentOTP from '../screens/parent/ParentOTP.js';
+import ParentLanding from '../screens/parent/ParentLanding.js';
 import ParentTabNavigator from './ParentTabNavigator.js';
 import SubjectDetail from '../screens/parent/SubjectDetail.js';
 import LessonDetail from '../screens/parent/LessonDetail.js';
@@ -113,6 +117,7 @@ const AppNavigator = () => {
         <Stack.Screen name="CompetitionDetail" component={StudentCompetitionDetail} />
         <Stack.Screen name="CompetitionArena" component={CompetitionArena} />
         <Stack.Screen name="MentalArithmetic" component={MentalArithmeticGame} />
+        <Stack.Screen name="MentalArithmeticPractice" component={MentalArithmeticPractice} />
         <Stack.Screen name="MentalPowerLevels" component={MentalPowerLevelsScreen} />
         <Stack.Screen name="StudentAchievements" component={StudentAchievements} />
         <Stack.Screen name="StudentPersonalInfo" component={StudentPersonalInfo} />
@@ -121,9 +126,12 @@ const AppNavigator = () => {
         <Stack.Screen name="StudentHelpCenter" component={StudentHelpCenter} />
         <Stack.Screen name="StudentSettings" component={StudentSettings} />
         <Stack.Screen name="Leaderboard" component={LeaderboardScreen} />
+        <Stack.Screen name="ParentRequests" component={ParentRequestsScreen} />
         
         {/* Parent Flow */}
         <Stack.Screen name="ParentAuth" component={ParentLogin} />
+        <Stack.Screen name="ParentOTP" component={ParentOTP} />
+        <Stack.Screen name="ParentLanding" component={ParentLanding} />
         <Stack.Screen name="ParentDashboard" component={ParentTabNavigator} />
         <Stack.Screen name="SubjectDetail" component={SubjectDetail} />
         <Stack.Screen name="LessonDetail" component={LessonDetail} />

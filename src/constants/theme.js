@@ -1,38 +1,38 @@
 export const COLORS = {
-  primary: '#22c55e', // Iqromax Green
-  primaryDark: '#16a34a',
-  primaryLight: '#bcf1d1',
-  secondary: '#facc15', // Gold/Yellow
-  accent: '#fb923c', // Orange
-  background: '#f8fafc',
-  white: '#ffffff',
-  black: '#000000',
-  error: '#ef4444',
-  success: '#22c55e',
-  xp: '#8b5cf6', // Vibrant Purple for XP
-  streak: '#f97316', // Bright Orange for Streak
-  level: '#3b82f6', // Bright Blue for Levels
-  gold: '#fbbf24',
-  silver: '#94a3b8',
-  bronze: '#d97706',
+  primary: '#10B981', // Premium Emerald Green
+  primaryDark: '#059669',
+  primaryLight: '#D1FAE5',
+  secondary: '#F59E0B', // Premium Amber
+  accent: '#6366F1', // Indigo for accent
+  background: '#F8FAFC',
+  white: '#FFFFFF',
+  black: '#1E293B', // Soft Slate instead of pure black
+  error: '#EF4444',
+  success: '#10B981',
+  xp: '#8B5CF6', 
+  streak: '#F97316', 
+  level: '#3B82F6', 
+  gold: '#FBBF24',
+  silver: '#94A3B8',
+  bronze: '#D97706',
   gray: {
-    50: '#f9fafb',
-    100: '#f3f4f6',
-    200: '#e5e7eb',
-    300: '#d1d5db',
-    400: '#9ca3af',
-    500: '#6b7280',
-    600: '#4b5563',
-    700: '#374151',
-    800: '#1f2937',
-    900: '#111827',
+    50: '#F9FAFB',
+    100: '#F3F4F6',
+    200: '#E5E7EB',
+    300: '#D1D5DB',
+    400: '#94A3B8',
+    500: '#64748B',
+    600: '#475569',
+    700: '#334155',
+    800: '#1E293B',
+    900: '#0F172A',
   },
 };
 
 export const LIGHT_THEME = {
   background: '#F8FAFB',
-  card: '#ffffff',
-  text: '#0F172A',
+  card: '#FFFFFF',
+  text: '#1E293B',
   textSecondary: '#64748B',
   border: '#E2E8F0',
   navbar: '#FFFFFF',
@@ -40,18 +40,18 @@ export const LIGHT_THEME = {
 };
 
 export const DARK_THEME = {
-  background: '#020617', // Pitch Dark Navy/Black
-  card: '#0F172A',       // Slate 900
-  cardElevated: '#1E293B', // Slate 800
-  text: '#F8FAFC',       // Slate 50
-  textSecondary: '#94A3B8', // Slate 400
-  border: '#1E293B',    // Slate 800
+  background: '#020617',
+  card: '#0F172A',
+  cardElevated: '#1E293B',
+  text: '#F8FAFC',
+  textSecondary: '#94A3B8',
+  border: '#1E293B',
   navbar: '#0F172A',
-  glow: '#4ADE80',       // Emerald 400
-  accentGlow: '#FDBA74', // Orange 300
+  glow: '#10B981',
+  accentGlow: '#FDBA74',
   ...COLORS,
-  primary: '#10B981',    // Emerald 500
-  accent: '#F97316',     // Orange 500
+  primary: '#10B981',
+  accent: '#F97316',
   white: '#F8FAFC',
 };
 
@@ -68,34 +68,42 @@ export const BORDER_RADIUS = {
   sm: 8,
   md: 12,
   lg: 20,
-  xl: 30,
+  xl: 32,
+  xxl: 40,
   full: 9999,
 };
 
 export const SHADOWS = {
   light: {
-    shadowColor: '#000',
+    shadowColor: '#64748B',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.08,
     shadowRadius: 4,
     elevation: 2,
   },
   medium: {
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
+    shadowColor: '#64748B',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.12,
+    shadowRadius: 12,
+    elevation: 6,
+  },
+  large: {
+    shadowColor: '#64748B',
+    shadowOffset: { width: 0, height: 16 },
     shadowOpacity: 0.15,
-    shadowRadius: 8,
-    elevation: 5,
+    shadowRadius: 24,
+    elevation: 10,
   },
   glow: {
-    shadowColor: '#4ADE80',
+    shadowColor: '#10B981',
     shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.5,
-    shadowRadius: 10,
+    shadowOpacity: 0.4,
+    shadowRadius: 12,
     elevation: 8,
   },
   button3d: {
-    shadowColor: '#000',
+    shadowColor: '#059669',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 0,

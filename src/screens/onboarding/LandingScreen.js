@@ -21,24 +21,24 @@ const CARD_WIDTH = width - SPACING.xl * 2;
 const SLIDES = [
   {
     id: '1',
-    image: require('../../../assets/mascot.png'),
-    title: 'Mental Arifmetika',
-    subtitle: 'Hisoblashni qiziqarli o\'yinlar orqali o\'rganing',
-    color: '#F0FDF4', // Very light green
+    image: require('../../../assets/mental_arithmetic_live.png'),
+    title: 'Intellektual Ta\'lim',
+    subtitle: 'Farzandingiz kelajagini bugundan quring',
+    color: '#F0FDF4',
   },
   {
     id: '2',
-    image: require('../../../assets/games_promo.png'),
+    image: require('../../../assets/math_games_live.png'),
     title: 'Qiziqarli O\'yinlar',
-    subtitle: 'Har bir topshiriq - yangi sarguzasht',
-    color: '#FFFBEB', // Very light amber
+    subtitle: 'O\'yin orqali bilim olish — eng samarali yo\'l',
+    color: '#FFFBEB',
   },
   {
     id: '3',
-    image: require('../../../assets/live_promo.png'),
-    title: 'Jonli Darslar',
-    subtitle: 'O\'qituvchilar bilan bevosita muloqot',
-    color: '#F5F3FF', // Very light purple
+    image: require('../../../assets/live_class_live.png'),
+    title: 'Jonli Muloqot',
+    subtitle: 'O\'qituvchi bilan yuzma-yuz — uyda o\'tirib',
+    color: '#F5F3FF',
   },
 ];
 
@@ -46,18 +46,56 @@ const LandingScreen = ({ navigation }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const slideRef = useRef(null);
+  
+  // Floating animation for mascot
+  const floatAnim = useRef(new Animated.Value(0)).current;
+  // Pulse animation for background
+  const pulseAnim = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
+    // Fade in screen
     Animated.timing(fadeAnim, {
       toValue: 1,
       duration: 1000,
       useNativeDriver: true,
     }).start();
 
+    // Floating Mascot Animation
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(floatAnim, {
+          toValue: -15,
+          duration: 2000,
+          useNativeDriver: true,
+        }),
+        Animated.timing(floatAnim, {
+          toValue: 0,
+          duration: 2000,
+          useNativeDriver: true,
+        }),
+      ])
+    ).start();
+
+    // Pulse Effect for BG
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(pulseAnim, {
+          toValue: 1.1,
+          duration: 2500,
+          useNativeDriver: true,
+        }),
+        Animated.timing(pulseAnim, {
+          toValue: 1,
+          duration: 2500,
+          useNativeDriver: true,
+        }),
+      ])
+    ).start();
+
     const interval = setInterval(() => {
       let nextIndex = activeIndex === SLIDES.length - 1 ? 0 : activeIndex + 1;
       slideRef.current?.scrollToIndex({ index: nextIndex, animated: true });
-    }, 4500);
+    }, 5000);
 
     return () => clearInterval(interval);
   }, [activeIndex]);
@@ -75,11 +113,41 @@ const LandingScreen = ({ navigation }) => {
     <View style={styles.slide}>
       <View style={styles.card}>
         <View style={[styles.imageBg, { backgroundColor: item.color }]}>
-          <Image
-            source={item.image}
-            style={styles.mascot}
-            resizeMode="contain"
+          {/* LIVE Badge */}
+          <View style={styles.liveBadge}>
+             <Animated.View style={[styles.liveDot, { opacity: pulseAnim }]} />
+             <Text style={styles.liveText}>LIVE</Text>
+          </View>
+
+          {/* Animated decorative backgrounds for "Live" effect */}
+          <Animated.View 
+            style={[
+              styles.livePulse, 
+              { 
+                backgroundColor: item.color, 
+                transform: [{ scale: pulseAnim }],
+                borderColor: COLORS.primary + '20'
+              }
+            ]} 
           />
+          <Animated.View 
+            style={[
+              styles.liveCircle, 
+              { 
+                backgroundColor: COLORS.white, 
+                opacity: 0.3,
+                transform: [{ translateY: floatAnim }, { scale: 0.8 }] 
+              }
+            ]} 
+          />
+          
+          <Animated.View style={{ width: '100%', height: '100%', transform: [{ translateY: floatAnim }] }}>
+            <Image
+              source={item.image}
+              style={styles.mascot}
+              resizeMode="cover"
+            />
+          </Animated.View>
         </View>
         <View style={styles.cardContent}>
           <Text style={styles.cardTitle}>{item.title}</Text>
@@ -100,9 +168,16 @@ const LandingScreen = ({ navigation }) => {
       <SafeAreaView style={styles.safeArea}>
         <View style={styles.content}>
           
-          {/* Header */}
+          {/* Premium Header Branding */}
           <View style={styles.header}>
-            <Text style={styles.welcomeSubtitle}>Xush kelibsiz!</Text>
+            <View style={styles.brandBox}>
+              <Text style={styles.brandTitle}>IQROMAX</Text>
+              <View style={styles.taglineBox}>
+                <View style={styles.tagLine} />
+                <Text style={styles.taglineText}>INTELLEKTUAL TA'LIM</Text>
+                <View style={styles.tagLine} />
+              </View>
+            </View>
           </View>
 
           {/* Swiper Section */}
@@ -220,13 +295,36 @@ const styles = StyleSheet.create({
   },
   header: {
     alignItems: 'center',
-    marginTop: SPACING.sm,
+    marginTop: SPACING.md,
   },
-  welcomeSubtitle: {
-    fontSize: 32,
+  brandBox: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  brandTitle: {
+    fontSize: 40,
     fontWeight: '900',
-    color: COLORS.gray[900],
-    letterSpacing: -0.5,
+    color: COLORS.primary,
+    letterSpacing: -1.5,
+  },
+  taglineBox: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    marginTop: -5,
+  },
+  tagLine: {
+    width: 20,
+    height: 1.5,
+    backgroundColor: COLORS.primaryLight,
+    borderRadius: 1,
+  },
+  taglineText: {
+    fontSize: 12,
+    fontWeight: '800',
+    color: COLORS.gray[400],
+    letterSpacing: 2,
+    textTransform: 'uppercase',
   },
   swiperContainer: {
     flex: 1.2,
@@ -251,14 +349,57 @@ const styles = StyleSheet.create({
     borderColor: COLORS.gray[50],
   },
   imageBg: {
-    flex: 1.1,
-    padding: SPACING.lg,
+    flex: 1.2,
     alignItems: 'center',
     justifyContent: 'center',
+    position: 'relative',
+    overflow: 'hidden',
+    backgroundColor: '#000', // Black base for photo contrast
+  },
+  livePulse: {
+    position: 'absolute',
+    width: width * 0.9,
+    height: width * 0.9,
+    borderRadius: width * 0.45,
+    borderWidth: 1,
+    opacity: 0.15,
+  },
+  liveCircle: {
+    position: 'absolute',
+    width: width,
+    height: width,
+    borderRadius: width / 2,
+    top: '10%',
   },
   mascot: {
-    width: '100%',
+    width: CARD_WIDTH,
     height: '100%',
+    zIndex: 5,
+  },
+  liveBadge: {
+    position: 'absolute',
+    top: 20,
+    left: 20,
+    backgroundColor: '#ef4444',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+    zIndex: 10,
+    gap: 6,
+  },
+  liveDot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: 'white',
+  },
+  liveText: {
+    color: 'white',
+    fontSize: 10,
+    fontWeight: '900',
+    letterSpacing: 1,
   },
   cardContent: {
     flex: 0.5,
@@ -330,7 +471,7 @@ const styles = StyleSheet.create({
   },
   ctaButton: {
     width: '100%',
-    ...SHADOWS.medium,
+    ...SHADOWS.large,
     marginBottom: SPACING.md,
   },
   ctaGradient: {

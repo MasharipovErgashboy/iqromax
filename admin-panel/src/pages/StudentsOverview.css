@@ -1,0 +1,149 @@
+.students-overview {
+  padding: 40px;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 35px;
+}
+
+.header-title h1 {
+  font-size: 28px;
+  font-weight: 900;
+  color: #1e293b;
+}
+
+.period-selector {
+  background: white;
+  padding: 6px;
+  border-radius: 12px;
+  display: flex;
+  gap: 5px;
+  border: 1px solid #e2e8f0;
+}
+
+.period-selector button {
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #64748b;
+}
+
+.period-selector button.active {
+  background: #10B981;
+  color: white;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+  margin-bottom: 40px;
+}
+
+.summary-card {
+  background: white;
+  padding: 25px;
+  border-radius: 28px;
+  border: 1px solid #f1f5f9;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.summary-card.gold { border-left: 6px solid #F59E0B; }
+.summary-card.blue { border-left: 6px solid #6366F1; }
+
+.card-icon {
+  width: 55px;
+  height: 55px;
+  border-radius: 18px;
+  background: #f8fafc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1e293b;
+}
+
+.gold .card-icon { color: #F59E0B; background: #fffbeb; }
+.blue .card-icon { color: #6366F1; background: #eef2ff; }
+
+.card-info h3 {
+  font-size: 11px;
+  font-weight: 800;
+  color: #94a3b8;
+  letter-spacing: 1px;
+}
+
+.val-row {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-top: 5px;
+}
+
+.val-row .value {
+  font-size: 28px;
+  font-weight: 900;
+  color: #1e293b;
+}
+
+.val-row .growth {
+  font-size: 13px;
+  font-weight: 800;
+  color: #10B981;
+}
+
+.analysis-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 25px;
+}
+
+.chart-container {
+  background: white;
+  padding: 30px;
+  border-radius: 32px;
+  border: 1px solid #f1f5f9;
+}
+
+.chart-header {
+  margin-bottom: 30px;
+}
+
+.chart-header h3 {
+  font-size: 18px;
+  font-weight: 800;
+  color: #1e293b;
+}
+
+.chart-header p {
+  font-size: 13px;
+  color: #94a3b8;
+  font-weight: 600;
+}
+
+.pie-legend {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.legend-item .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}

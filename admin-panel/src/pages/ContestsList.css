@@ -1,0 +1,130 @@
+.contests-list-page {
+  padding: 25px 30px 0 30px;
+}
+
+.contest-info-cell {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.c-img-mini {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  background: #f1f5f9;
+}
+
+.c-img-mini img { width: 100%; height: 100%; object-fit: cover; }
+
+.live-dot-mini {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 8px;
+  height: 8px;
+  background: #ef4444;
+  border-radius: 50%;
+  border: 2px solid white;
+  animation: pulse-red-mini 2s infinite;
+}
+
+.c-title { font-size: 14px; font-weight: 800; color: #1e293b; }
+.c-type { font-size: 11px; color: #94a3b8; font-weight: 700; margin-top: 2px; }
+
+.prize-cell, .participants-cell, .time-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #475569;
+}
+
+.prize-cell svg { color: #F59E0B; }
+.participants-cell svg { color: #6366f1; }
+.time-cell svg { color: #94a3b8; }
+
+.status-badge-p.live { background: #fef2f2; color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.2); }
+.status-badge-p.upcoming { background: #fffbeb; color: #F59E0B; border: 1px solid rgba(245, 158, 11, 0.2); }
+
+/* CONTEST PANEL REFINED */
+.contest-modern-form {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 0;
+}
+
+.form-column-main, .form-column-side { display: flex; flex-direction: column; gap: 30px; }
+
+.form-card-premium {
+  padding: 30px;
+  border-radius: 28px;
+  border: 1px solid #f1f5f9;
+}
+
+.card-heading { display: flex; align-items: center; gap: 18px; margin-bottom: 25px; }
+.card-heading .h-icon { width: 44px; height: 44px; border-radius: 14px; background: #eef2ff; color: #6366f1; display: flex; align-items: center; justify-content: center; }
+.card-heading h3 { margin: 0; font-size: 17px; font-weight: 800; color: #1e293b; }
+.card-heading p { margin: 2px 0 0; font-size: 12px; color: #94a3b8; font-weight: 600; }
+
+.field-group { margin-bottom: 20px; }
+.field-group label { display: block; font-size: 13px; font-weight: 700; color: #64748b; margin-bottom: 10px; }
+.field-group input, .field-group select, .field-group textarea {
+  width: 100%;
+  height: 52px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 0 18px;
+  font-size: 14px;
+  font-weight: 600;
+  outline: none;
+  transition: 0.2s;
+}
+
+.field-group textarea { height: 120px; padding: 18px; resize: none; }
+.field-group input:focus { border-color: #6366f1; background: white; box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1); }
+
+.field-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+.level-selector { display: flex; gap: 10px; background: #f1f5f9; padding: 6px; border-radius: 12px; }
+.lvl-btn { flex: 1; height: 38px; border-radius: 8px; border: none; font-size: 12px; font-weight: 800; cursor: pointer; transition: 0.2s; background: transparent; color: #64748b; }
+.lvl-btn.active { background: white; color: #6366f1; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+
+.rules-editor-m { display: flex; flex-direction: column; gap: 12px; }
+.rule-row-m { display: flex; align-items: center; gap: 15px; }
+.rule-num { width: 32px; height: 32px; border-radius: 50%; background: #6366f1; color: white; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 900; }
+.rule-row-m input { flex: 1; height: 48px; border-radius: 12px; border: 1px solid #e2e8f0; padding: 0 15px; font-size: 13px; font-weight: 600; }
+.rule-remove { width: 36px; height: 36px; border-radius: 10px; border: none; background: #fef2f2; color: #ef4444; cursor: pointer; }
+.rule-add-m { width: 100%; height: 48px; border-radius: 12px; border: 1px dashed #cbd5e1; background: none; color: #64748b; font-weight: 800; font-size: 14px; cursor: pointer; }
+
+.prize-card { background: #fffbeb; border-color: #fde68a; }
+.prize-input { border-color: #fcd34d !important; color: #d97706 !important; font-weight: 900 !important; font-size: 18px !important; }
+
+.prize-distribution { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
+.p-dist-item { display: flex; align-items: center; gap: 15px; }
+.p-rank { width: 80px; font-size: 11px; font-weight: 900; padding: 6px; border-radius: 8px; text-align: center; text-transform: uppercase; }
+.p-rank.first { background: #fef3c7; color: #d97706; }
+.p-rank.second { background: #f1f5f9; color: #475569; }
+.p-rank.third { background: #ffedd5; color: #c2410c; }
+.p-dist-item input { flex: 1; height: 44px; border-radius: 10px; border: 1px solid #e2e8f0; padding: 0 12px; font-size: 14px; font-weight: 700; }
+
+.q-preview-list-m { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; }
+.q-item-m { background: white; padding: 12px 15px; border-radius: 14px; border: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center; }
+.q-txt { font-size: 13px; font-weight: 700; color: #1e293b; }
+.q-type { font-size: 10px; font-weight: 800; color: #6366f1; background: #eef2ff; padding: 2px 8px; border-radius: 6px; }
+.q-manage-btn-m { width: 100%; height: 48px; border-radius: 14px; border: none; background: #1e293b; color: white; font-weight: 800; cursor: pointer; }
+
+.contest-header-premium { background: #6366f1; color: white; }
+.p-badge-modern { background: rgba(255,255,255,0.2); color: white; padding: 4px 12px; border-radius: 8px; font-size: 11px; font-weight: 900; letter-spacing: 1px; display: inline-block; margin-bottom: 10px; }
+.p-btn-publish { background: white; color: #6366f1; border: none; padding: 12px 25px; border-radius: 14px; font-size: 14px; font-weight: 800; display: flex; align-items: center; gap: 10px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); cursor: pointer; }
+.p-btn-cancel { background: none; border: none; color: rgba(255,255,255,0.7); font-weight: 800; font-size: 14px; cursor: pointer; padding: 0 20px; }
+.p-btn-cancel:hover { color: white; }
+
+.no-actions-text { font-size: 11px; font-weight: 800; color: #94a3b8; letter-spacing: 1px; text-transform: uppercase; }
