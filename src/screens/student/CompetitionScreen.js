@@ -12,43 +12,10 @@ import {
 } from 'react-native';
 import { COLORS, SPACING, BORDER_RADIUS, SHADOWS } from '../../constants/theme.js';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Trophy, Users, Clock, Medal, Crown, TrendingUp } from 'lucide-react-native';
+import { Trophy, Users, Clock, Medal, Crown, TrendingUp, Brain, Calculator, ChevronRight, Zap, Target, BarChart3, Activity, Star, Info, Flame, LayoutGrid, CheckCircle, Play, BookOpen } from 'lucide-react-native';
 import StudentPremiumBackground from '../../components/StudentPremiumBackground';
 
 const { width } = Dimensions.get('window');
-
-const CONTESTS = [
-  {
-    id: '1',
-    title: 'Global Algebra Challenge',
-    subject: 'Mental Arifmetika',
-    participants: 1240,
-    time: '02:45:10',
-    status: 'LIVE',
-    colors: ['#3B82F6', '#2563EB'],
-    image: require('../../../assets/abacus_3d.png'),
-  },
-  {
-    id: '2',
-    title: 'Mantiqiy Bilimdon 2026',
-    subject: 'Mantiqiy fikrlash',
-    participants: 850,
-    time: 'Starts in 1h',
-    status: 'UPCOMING',
-    colors: ['#F59E0B', '#D97706'],
-    image: require('../../../assets/avatar_red.png'),
-  },
-  {
-    id: '3',
-    title: 'Tezkor O\'qish Marafoni',
-    subject: 'Tez O\'qish',
-    participants: 2100,
-    time: '24:00:00',
-    status: 'UPCOMING',
-    colors: ['#8B5CF6', '#7C3AED'],
-    image: require('../../../assets/avatar_blue.png'),
-  },
-];
 
 const LEADERBOARD = [
   { id: '1', name: 'Azizbek K.', xp: 4520, rank: 1, avatar: require('../../../assets/avatar_yellow.png') },
@@ -59,7 +26,7 @@ const LEADERBOARD = [
 ];
 
 const CompetitionScreen = ({ navigation }) => {
-  const [activeTab, setActiveTab] = useState('contests');
+  const [activeTab, setActiveTab] = useState('practice');
   const pulseAnim = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
@@ -79,52 +46,8 @@ const CompetitionScreen = ({ navigation }) => {
     ).start();
   }, []);
 
-  const renderContests = () => (
-    <View style={styles.listContainer}>
-      {CONTESTS.map((item) => (
-        <TouchableOpacity 
-          key={item.id} 
-          style={styles.contestCard} 
-          activeOpacity={0.9}
-          onPress={() => navigation.navigate('CompetitionDetail', { competition: item })}
-        >
-          <LinearGradient colors={item.colors} style={styles.cardGradient}>
-            <View style={styles.cardInfo}>
-              <View style={styles.statusRow}>
-                <View style={styles.statusBadge}>
-                  {item.status === 'LIVE' && (
-                    <Animated.View style={[styles.pulseDot, { transform: [{ scale: pulseAnim }] }]} />
-                  )}
-                  <Text style={styles.statusText}>{item.status}</Text>
-                </View>
-                <View style={styles.timeWrapper}>
-                  <Clock color={COLORS.white} size={14} />
-                  <Text style={styles.timeText}>{item.time}</Text>
-                </View>
-              </View>
-              <Text style={styles.cardTitle}>{item.title}</Text>
-              <Text style={styles.cardSubject}>{item.subject}</Text>
-              <View style={styles.participantsRow}>
-                <Users color={COLORS.white} size={16} opacity={0.8} />
-                <Text style={styles.participantsText}>{item.participants} o'quvchi qo'shildi</Text>
-              </View>
-              <TouchableOpacity 
-                style={styles.joinBtn}
-                onPress={() => navigation.navigate('CompetitionDetail', { competition: item })}
-              >
-                <Text style={[styles.joinBtnText, { color: item.colors[1] }]}>Ishtirok etish</Text>
-              </TouchableOpacity>
-            </View>
-            <Image source={item.image} style={styles.cardImage} resizeMode="contain" />
-          </LinearGradient>
-        </TouchableOpacity>
-      ))}
-    </View>
-  );
-
   const renderLeaderboard = () => (
     <View style={styles.leaderboardContainer}>
-      {/* Top 3 Podium Placeholder Style */}
       <View style={styles.podium}>
         <View style={styles.podiumItem}>
           <View style={[styles.podiumAvatarWrap, { borderColor: '#C0C0C0' }]}>
@@ -161,7 +84,6 @@ const CompetitionScreen = ({ navigation }) => {
         </View>
       </View>
 
-      {/* Other Ranks */}
       <View style={styles.rankList}>
         {LEADERBOARD.slice(3).map((user) => (
           <View key={user.id} style={styles.rankItem}>
@@ -175,55 +97,172 @@ const CompetitionScreen = ({ navigation }) => {
       </View>
     </View>
   );
+  
+  const renderPractice = () => (
+    <View style={styles.practiceContainer}>
+      <TouchableOpacity 
+        style={styles.practiceMainCard}
+        onPress={() => navigation.navigate('MentalArithmeticPractice')}
+      >
+        <LinearGradient colors={['#10B981', '#059669']} style={styles.practiceMainGradient}>
+          <View style={styles.practiceMainContent}>
+            <View style={styles.practiceMainIconWrap}>
+              <Brain color="white" size={32} />
+            </View>
+            <View>
+              <Text style={styles.practiceMainTitle}>Mental Arifmetika</Text>
+              <Text style={styles.practiceMainDesc}>Xayolan tezkor hisoblashni o'rganing</Text>
+            </View>
+          </View>
+          <ChevronRight color="rgba(255,255,255,0.8)" size={24} />
+          <Image source={require('../../../assets/mascot.png')} style={styles.practiceMainImage} />
+        </LinearGradient>
+      </TouchableOpacity>
+
+      <TouchableOpacity 
+        style={styles.practiceMainCard}
+        onPress={() => navigation.navigate('AbacusPracticeSelection')}
+      >
+        <LinearGradient colors={['#6366F1', '#4F46E5']} style={styles.practiceMainGradient}>
+          <View style={styles.practiceMainContent}>
+            <View style={styles.practiceMainIconWrap}>
+              <Calculator color="white" size={32} />
+            </View>
+            <View>
+              <Text style={styles.practiceMainTitle}>Abakus Mashqlari</Text>
+              <Text style={styles.practiceMainDesc}>Abakusda mahoratingizni oshiring</Text>
+            </View>
+          </View>
+          <ChevronRight color="rgba(255,255,255,0.8)" size={24} />
+          <Image source={require('../../../assets/abacus_3d.png')} style={styles.practiceMainImage} />
+        </LinearGradient>
+      </TouchableOpacity>
+
+      <View style={styles.motivationCard}>
+        <LinearGradient colors={['#F0FDF4', '#DCFCE7']} style={styles.motivationGradient}>
+          <View style={styles.motivationIconWrap}>
+            <Zap color="#10B981" size={20} fill="#10B981" />
+          </View>
+          <View style={styles.motivationContent}>
+            <Text style={styles.motivationTitle}>Kunlik tavsiya</Text>
+            <Text style={styles.motivationText}>Muvaffaqiyat kaliti — muntazam shug'ullanishdir. Bugun o'z mahoratingizni charxlang!</Text>
+          </View>
+        </LinearGradient>
+      </View>
+    </View>
+  );
+
+  const renderStatistics = () => (
+    <View style={styles.statsContainer}>
+      <View style={styles.statLargeGrid}>
+         <View style={styles.statLargeItem}>
+            <View style={styles.statIconCircle}>
+               <Target color="#10B981" size={24} />
+            </View>
+            <Text style={styles.statLargeValue}>114</Text>
+            <Text style={styles.statLargeLabel}>Jami mashqlar</Text>
+         </View>
+         <View style={styles.statLargeItem}>
+            <View style={[styles.statIconCircle, { backgroundColor: '#F0FDF4' }]}>
+               <CheckCircle color="#10B981" size={24} />
+            </View>
+            <Text style={styles.statLargeValue}>49%</Text>
+            <Text style={styles.statLargeLabel}>Aniqlik</Text>
+         </View>
+         <View style={styles.statLargeItem}>
+            <View style={[styles.statIconCircle, { backgroundColor: '#EFF6FF' }]}>
+               <Clock color="#3B82F6" size={24} />
+            </View>
+            <Text style={styles.statLargeValue}>9.4s</Text>
+            <Text style={styles.statLargeLabel}>O'rtacha vaqt</Text>
+         </View>
+         <View style={styles.statLargeItem}>
+            <View style={[styles.statIconCircle, { backgroundColor: '#FFF7ED' }]}>
+               <Flame color="#F97316" size={24} />
+            </View>
+            <Text style={styles.statLargeValue}>5</Text>
+            <Text style={styles.statLargeLabel}>Eng uzun seriya</Text>
+         </View>
+      </View>
+
+      <View style={styles.chartPlaceholder}>
+         <View style={styles.chartHeader}>
+            <BarChart3 color="#1E293B" size={20} />
+            <Text style={styles.chartTitle}>Haftalik faollik</Text>
+         </View>
+         <View style={styles.mockChart}>
+            {[40, 70, 45, 90, 65, 80, 50].map((h, i) => (
+              <View key={i} style={[styles.chartBar, { height: h }]} />
+            ))}
+         </View>
+         <View style={styles.chartDays}>
+            {['D', 'S', 'C', 'P', 'J', 'Sh', 'Y'].map(d => (
+              <Text key={d} style={styles.dayText}>{d}</Text>
+            ))}
+         </View>
+      </View>
+    </View>
+  );
 
   return (
     <SafeAreaView style={styles.container}>
       <StudentPremiumBackground color1="#F43F5E" color2="#F59E0B" color3="#D97706" />
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 100 }}>
         {/* Header Section */}
         <LinearGradient colors={['#F8FAFB', '#FFFFFF']} style={styles.header}>
           <View style={styles.headerTop}>
             <View>
-              <Text style={styles.headerTitle}>Musobaqalar</Text>
-              <Text style={styles.headerSubtitle}>Dunyo bo'ylab bilimlar jangi</Text>
-            </View>
-            <View style={styles.pointsWrap}>
-              <Trophy color={COLORS.primary} size={20} fill={COLORS.primary} />
-              <Text style={styles.pointsText}>2,450</Text>
+              <Text style={styles.headerTitle}>Mashqlar Markazi</Text>
+              <Text style={styles.headerSubtitle}>Bilimingizni har kuni charxlab boring</Text>
             </View>
           </View>
 
-          {/* User Rank Summary Card */}
-          <LinearGradient colors={[COLORS.primary, COLORS.primaryDark]} style={styles.rankCard}>
-            <View style={styles.rankCardLeft}>
-              <Text style={styles.rankCardLabel}>Sizning o'rningiz</Text>
-              <Text style={styles.rankCardValue}>#458</Text>
+          {/* Weekly Goal Progress Card */}
+          <LinearGradient colors={[COLORS.primary, COLORS.primaryDark]} style={styles.goalCard}>
+            <View style={styles.goalHeader}>
+               <View>
+                  <Text style={styles.goalLabel}>Haftalik Maqsad</Text>
+                  <Text style={styles.goalValue}>32 / 50 <Text style={styles.goalSubValue}>mashq</Text></Text>
+               </View>
+               <View style={styles.goalPercentWrap}>
+                  <Text style={styles.goalPercent}>64%</Text>
+               </View>
             </View>
-            <View style={styles.rankCardDivider} />
-            <View style={styles.rankCardRight}>
-              <Text style={styles.rankCardLabel}>Jami ochkolar</Text>
-              <Text style={styles.rankCardValue}>2.4k pts</Text>
+            <View style={styles.goalProgressBg}>
+               <View style={[styles.goalProgressFill, { width: '64%' }]} />
             </View>
+            <Text style={styles.goalInfo}>Yana 18 ta mashq bajarsangiz maqsadga erishasiz!</Text>
           </LinearGradient>
 
           {/* Tabs */}
           <View style={styles.tabs}>
             <TouchableOpacity 
-              onPress={() => setActiveTab('contests')}
-              style={[styles.tab, activeTab === 'contests' && styles.activeTab]}
+              onPress={() => setActiveTab('practice')}
+              style={[styles.tab, activeTab === 'practice' && styles.activeTab]}
             >
-              <Text style={[styles.tabText, activeTab === 'contests' && styles.activeTabText]}>Musobaqalar</Text>
+              <Zap color={activeTab === 'practice' ? COLORS.primary : COLORS.gray[400]} size={18} />
+              <Text style={[styles.tabText, activeTab === 'practice' && styles.activeTabText]}>Mashq</Text>
             </TouchableOpacity>
             <TouchableOpacity 
               onPress={() => setActiveTab('leaderboard')}
               style={[styles.tab, activeTab === 'leaderboard' && styles.activeTab]}
             >
+              <Trophy color={activeTab === 'leaderboard' ? COLORS.primary : COLORS.gray[400]} size={18} />
               <Text style={[styles.tabText, activeTab === 'leaderboard' && styles.activeTabText]}>Reyting</Text>
+            </TouchableOpacity>
+            <TouchableOpacity 
+              onPress={() => setActiveTab('stats')}
+              style={[styles.tab, activeTab === 'stats' && styles.activeTab]}
+            >
+              <BarChart3 color={activeTab === 'stats' ? COLORS.primary : COLORS.gray[400]} size={18} />
+              <Text style={[styles.tabText, activeTab === 'stats' && styles.activeTabText]}>Statistika</Text>
             </TouchableOpacity>
           </View>
         </LinearGradient>
 
-        {activeTab === 'contests' ? renderContests() : renderLeaderboard()}
+        {activeTab === 'practice' && renderPractice()}
+        {activeTab === 'leaderboard' && renderLeaderboard()}
+        {activeTab === 'stats' && renderStatistics()}
       </ScrollView>
     </SafeAreaView>
   );
@@ -271,38 +310,62 @@ const styles = StyleSheet.create({
     fontWeight: '800',
     color: COLORS.primary,
   },
-  rankCard: {
-    flexDirection: 'row',
+  goalCard: {
     borderRadius: 24,
-    padding: SPACING.xl,
-    alignItems: 'center',
+    padding: 20,
     ...SHADOWS.medium,
     marginBottom: SPACING.xl,
   },
-  rankCardLeft: {
-    flex: 1,
+  goalHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
+    marginBottom: 15,
   },
-  rankCardRight: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  rankCardDivider: {
-    width: 1,
-    height: 40,
-    backgroundColor: 'rgba(255,255,255,0.2)',
-  },
-  rankCardLabel: {
-    color: COLORS.white,
-    opacity: 0.8,
+  goalLabel: {
+    color: 'white',
     fontSize: 12,
-    fontWeight: '600',
+    fontWeight: '700',
+    opacity: 0.9,
     marginBottom: 4,
   },
-  rankCardValue: {
-    color: COLORS.white,
-    fontSize: 22,
+  goalValue: {
+    color: 'white',
+    fontSize: 24,
     fontWeight: '900',
+  },
+  goalSubValue: {
+    fontSize: 14,
+    fontWeight: '600',
+    opacity: 0.8,
+  },
+  goalPercentWrap: {
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 12,
+  },
+  goalPercent: {
+    color: 'white',
+    fontSize: 14,
+    fontWeight: '800',
+  },
+  goalProgressBg: {
+    height: 10,
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    borderRadius: 5,
+    marginBottom: 12,
+  },
+  goalProgressFill: {
+    height: '100%',
+    backgroundColor: 'white',
+    borderRadius: 5,
+  },
+  goalInfo: {
+    color: 'white',
+    fontSize: 11,
+    fontWeight: '600',
+    opacity: 0.9,
   },
   tabs: {
     flexDirection: 'row',
@@ -314,7 +377,9 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingVertical: 12,
     alignItems: 'center',
+    justifyContent: 'center',
     borderRadius: 12,
+    gap: 4,
   },
   activeTab: {
     backgroundColor: COLORS.white,
@@ -529,6 +594,278 @@ const styles = StyleSheet.create({
     fontWeight: '800',
     color: COLORS.gray[900],
     marginRight: 10,
+  },
+  practiceContainer: {
+    padding: SPACING.lg,
+    gap: SPACING.lg,
+    paddingBottom: 110,
+  },
+  dailyProgressCard: {
+    backgroundColor: 'white',
+    borderRadius: 24,
+    padding: 20,
+    borderWidth: 1,
+    borderColor: '#F1F5F9',
+    ...SHADOWS.light,
+    marginBottom: 10,
+  },
+  dailyHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  dailyTitle: {
+    fontSize: 16,
+    fontWeight: '800',
+    color: '#1E293B',
+  },
+  streakBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    backgroundColor: '#ECFDF5',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 10,
+  },
+  streakText: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#10B981',
+  },
+  statsGrid: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  miniStat: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  miniStatVal: {
+    fontSize: 18,
+    fontWeight: '900',
+    color: '#0F172A',
+  },
+  miniStatLabel: {
+    fontSize: 11,
+    color: COLORS.gray[400],
+    fontWeight: '600',
+    marginTop: 2,
+  },
+  statLine: {
+    width: 1,
+    height: 30,
+    backgroundColor: '#F1F5F9',
+  },
+  practiceMainCard: {
+    borderRadius: 30,
+    overflow: 'hidden',
+    ...SHADOWS.medium,
+    marginBottom: 20,
+  },
+  practiceMainGradient: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: 24,
+    minHeight: 140,
+  },
+  practiceMainContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 16,
+    zIndex: 2,
+  },
+  practiceMainIconWrap: {
+    width: 64,
+    height: 64,
+    borderRadius: 20,
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  practiceMainTitle: {
+    fontSize: 22,
+    fontWeight: '900',
+    color: 'white',
+  },
+  practiceMainDesc: {
+    fontSize: 14,
+    color: 'rgba(255,255,255,0.8)',
+    fontWeight: '600',
+    marginTop: 4,
+  },
+  practiceMainImage: {
+    width: 110,
+    height: 110,
+    position: 'absolute',
+    right: 15,
+    bottom: -15,
+    opacity: 0.7,
+    zIndex: 1,
+  },
+  motivationCard: {
+    marginTop: 10,
+    borderRadius: 24,
+    overflow: 'hidden',
+    borderWidth: 1,
+    borderColor: '#10B98120',
+  },
+  motivationGradient: {
+    flexDirection: 'row',
+    padding: 20,
+    alignItems: 'center',
+    gap: 16,
+  },
+  motivationIconWrap: {
+    width: 44,
+    height: 44,
+    borderRadius: 15,
+    backgroundColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
+    ...SHADOWS.light,
+  },
+  motivationContent: {
+    flex: 1,
+  },
+  motivationTitle: {
+    fontSize: 14,
+    fontWeight: '800',
+    color: '#065F46',
+    marginBottom: 4,
+  },
+  motivationText: {
+    fontSize: 12,
+    color: '#047857',
+    fontWeight: '600',
+    lineHeight: 18,
+  },
+  statsContainer: {
+    padding: SPACING.lg,
+    gap: SPACING.lg,
+  },
+  statLargeGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 12,
+  },
+  statLargeItem: {
+    width: (width - 64) / 2,
+    backgroundColor: 'white',
+    borderRadius: 24,
+    padding: 20,
+    alignItems: 'center',
+    ...SHADOWS.light,
+    borderWidth: 1,
+    borderColor: '#F1F5F9',
+  },
+  statIconCircle: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: '#F0F9FF',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 12,
+  },
+  statLargeValue: {
+    fontSize: 24,
+    fontWeight: '900',
+    color: '#0F172A',
+  },
+  statLargeLabel: {
+    fontSize: 12,
+    color: '#64748B',
+    fontWeight: '700',
+    marginTop: 4,
+  },
+  chartPlaceholder: {
+    backgroundColor: 'white',
+    borderRadius: 30,
+    padding: 25,
+    ...SHADOWS.light,
+  },
+  chartHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    marginBottom: 25,
+  },
+  chartTitle: {
+    fontSize: 18,
+    fontWeight: '800',
+    color: '#1E293B',
+  },
+  mockChart: {
+    flexDirection: 'row',
+    height: 120,
+    alignItems: 'flex-end',
+    justifyContent: 'space-between',
+    paddingHorizontal: 10,
+  },
+  chartBar: {
+    width: 12,
+    backgroundColor: '#10B981',
+    borderRadius: 6,
+    opacity: 0.8,
+  },
+  chartDays: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 10,
+    marginTop: 15,
+  },
+  dayText: {
+    fontSize: 12,
+    color: '#94A3B8',
+    fontWeight: '700',
+  },
+  historyCard: {
+    backgroundColor: 'white',
+    borderRadius: 30,
+    padding: 25,
+    ...SHADOWS.light,
+  },
+  historyTitle: {
+    fontSize: 18,
+    fontWeight: '800',
+    color: '#1E293B',
+    marginBottom: 20,
+  },
+  historyItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: '#F1F5F9',
+  },
+  historyInfo: {
+    gap: 4,
+  },
+  historyName: {
+    fontSize: 15,
+    fontWeight: '800',
+    color: '#1E293B',
+  },
+  historyDate: {
+    fontSize: 12,
+    color: '#94A3B8',
+    fontWeight: '600',
+  },
+  historyBadge: {
+    backgroundColor: '#F0FDF4',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 12,
+  },
+  historyScore: {
+    fontSize: 13,
+    fontWeight: '900',
+    color: '#10B981',
   },
 });
 

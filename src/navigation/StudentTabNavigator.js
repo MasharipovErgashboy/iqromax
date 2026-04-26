@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Animated, Dimensions, Platform } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Home, BookOpen, Gamepad2, Trophy, Tv, User } from 'lucide-react-native';
+import { Home, BookOpen, Gamepad2, Trophy, Tv, User, Zap } from 'lucide-react-native';
 import { COLORS, SHADOWS, SPACING } from '../constants/theme.js';
 import { LinearGradient } from 'expo-linear-gradient';
 
@@ -25,7 +25,7 @@ const TAB_CONFIG = [
   { name: 'Dashboard', label: 'Asosiy', icon: Home },
   { name: 'Subjects', label: 'Fanlar', icon: BookOpen },
   { name: 'Games', label: 'O\'yinlar', icon: Gamepad2 },
-  { name: 'Contest', label: 'Musobaqa', icon: Trophy },
+  { name: 'Contest', label: 'Mashq', icon: Zap },
   { name: 'Live', label: 'Jonli', icon: Tv },
   { name: 'Profile', label: 'Profil', icon: User },
 ];

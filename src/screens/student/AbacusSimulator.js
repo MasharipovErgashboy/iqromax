@@ -125,17 +125,42 @@ const AbacusColumn = ({ value, onBeadPress, colIndex }) => {
 };
 
 const AbacusSimulator = ({ navigation, route }) => {
-  const { mode = 'level' } = route.params || {};
+  const { mode = 'level', config } = route.params || {};
   const isFreeMode = mode === 'free';
+  const range = config?.range || 1;
+  const count = config?.count || 10;
 
   const { unlockLevel, addXP, updateStreak, earnBadge } = useLevels();
-  const [columns, setColumns] = useState(isFreeMode ? [0, 0, 0, 0, 0, 0, 0] : [0, 0, 0, 0, 7, 3, 1]);
-  const [task, setTask] = useState({ target: 1250, time: '02:45' });
+  
+  // Generate a sequence of numbers for real calculation
+  const generateSequence = () => {
+    const sequence = [];
+    let currentSum = 0;
+    for (let i = 0; i < count; i++) {
+      const min = Math.pow(10, range - 1);
+      const max = Math.pow(10, range) - 1;
+      let val = Math.floor(Math.random() * (max - min + 1)) + min;
+      
+      // Occasionally subtract, but keep sum positive
+      if (i > 0 && Math.random() > 0.7 && currentSum > val) {
+        val = -val;
+      }
+      
+      sequence.push(val);
+      currentSum += val;
+    }
+    return { sequence, finalSum: currentSum };
+  };
+
+  const [session, setSession] = useState(generateSequence());
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [columns, setColumns] = useState(Array(7).fill(0));
   const [isSuccess, setIsSuccess] = useState(false);
+  const [showResult, setShowResult] = useState(false);
   
   const pulseAnim = useRef(new Animated.Value(1)).current;
   const scanAnim = useRef(new Animated.Value(0)).current;
-  const successAnim = useRef(new Animated.Value(0)).current;
+  const successAnim = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
     // Hologram Pulse
@@ -174,22 +199,30 @@ const AbacusSimulator = ({ navigation, route }) => {
     return columns.reduce((acc, val, i) => acc + val * Math.pow(10, columns.length - 1 - i), 0);
   }, [columns]);
 
-  useEffect(() => {
-    if (!isFreeMode && totalValue === task.target && !isSuccess) {
+  const handleNext = () => {
+    // Calculate expected sum up to current step
+    const expectedSum = session.sequence.slice(0, currentIndex + 1).reduce((a, b) => a + b, 0);
+
+    if (totalValue !== expectedSum) {
+      alert("Abakusdagi hisob noto'g'ri. Donachalarni to'g'ri joylashtirib, qayta urinib ko'ring!");
+      return;
+    }
+
+    if (currentIndex < count - 1) {
+      setCurrentIndex(currentIndex + 1);
+    } else {
+      // Success!
       setIsSuccess(true);
-      // Muvaffaqiyat animatsiyasi
       Animated.sequence([
         Animated.timing(successAnim, { toValue: 1.2, duration: 300, useNativeDriver: true }),
         Animated.timing(successAnim, { toValue: 1, duration: 300, useNativeDriver: true }),
       ]).start();
-      // Logic for unlocking next level
-      // Assuming level 1 is currently active, unlock level 2
       unlockLevel(2); 
-      addXP(150); // Oshirildi
-      updateStreak(); // Streak yangilash
-      earnBadge('Abakus ustasi'); // Badge berish
+      addXP(150);
+      updateStreak();
+      earnBadge('Abakus ustasi');
     }
-  }, [totalValue]);
+  };
 
   const resetAbacus = () => setColumns([0, 0, 0, 0, 0, 0, 0]);
 
@@ -217,24 +250,12 @@ const AbacusSimulator = ({ navigation, route }) => {
                    <Text style={styles.freeModeSub}>Erkin hisoblash rejimi</Text>
                 </View>
               ) : (
-                <>
-                  <View style={styles.questTop}>
-                    <View style={styles.targetBadge}>
-                        <Target color={COLORS.primary} size={14} />
-                        <Text style={styles.targetLabel}>Target: {task.target}</Text>
-                    </View>
-                    <View style={styles.timerBadge}>
-                        <Clock color="#64748B" size={14} />
-                        <Text style={styles.timerText}>{task.time}</Text>
-                    </View>
-                  </View>
-                  <View style={styles.questProgressBg}>
-                    <LinearGradient 
-                      colors={[COLORS.primary, COLORS.primaryDark]} 
-                      style={[styles.questProgressFill, { width: `${(totalValue / task.target) * 100}%` }]} 
-                    />
-                  </View>
-                </>
+                <View style={styles.operationDisplay}>
+                   <Text style={styles.operationLabel}>HOZIRGI AMAL:</Text>
+                   <Text style={styles.operationValue}>
+                      {session.sequence[currentIndex] > 0 ? '+' : ''}{session.sequence[currentIndex]}
+                   </Text>
+                </View>
               )}
            </View>
 
@@ -252,13 +273,13 @@ const AbacusSimulator = ({ navigation, route }) => {
            <Animated.View style={[styles.hologramDisplay, { transform: [{ scale: successAnim }] }]}>
               <Animated.View style={[styles.scanLine, { transform: [{ translateY: scanLineTranslate }] }]} />
               <Text style={styles.hologramValue}>{totalValue.toLocaleString()}</Text>
-              <Text style={styles.hologramSub}>{isFreeMode ? 'NATIJA' : 'HISOB-KITOBLAR'}</Text>
+              <Text style={styles.hologramSub}>SIZNING NATIJANGIZ</Text>
            </Animated.View>
         </View>
 
-        {/* Zen Abacus Frame */}
-        <View style={styles.abacusCore}>
-           <View style={styles.zenFrame}>
+         {/* Zen Abacus Frame */}
+         <View style={styles.abacusCore}>
+            <View style={styles.zenFrame}>
               {/* Outer Wood Bezel */}
               <LinearGradient 
                 colors={['#1E293B', '#0F172A', '#1E293B']} 
@@ -301,13 +322,15 @@ const AbacusSimulator = ({ navigation, route }) => {
               </TouchableOpacity>
            </View>
 
-           <TouchableOpacity activeOpacity={0.9} style={styles.mainStartBtn} onPress={() => !isFreeMode && navigation.navigate('AbacusLevels')}>
+           <TouchableOpacity activeOpacity={0.9} style={styles.mainStartBtn} onPress={isFreeMode ? () => navigation.navigate('AbacusLevels') : handleNext}>
               <LinearGradient
                 colors={['#1E293B', '#0F172A']}
                 style={styles.startGradient}
               >
                   <Zap color={COLORS.secondary} fill={COLORS.secondary} size={28} />
-                  <Text style={styles.startLabel}>{isFreeMode ? 'MASHQ QILISH' : "LEVELGA O'TISH"}</Text>
+                  <Text style={styles.startLabel}>
+                    {isFreeMode ? 'MASHQ QILISH' : (currentIndex < count - 1 ? 'KEYINGISI' : 'TEKSHIRISH')}
+                  </Text>
               </LinearGradient>
            </TouchableOpacity>
 
@@ -455,8 +478,9 @@ const styles = StyleSheet.create({
   },
   hologramDisplay: {
     alignItems: 'center',
+    justifyContent: 'center',
     overflow: 'hidden',
-    paddingHorizontal: 30,
+    paddingHorizontal: 0,
     paddingVertical: 10,
   },
   scanLine: {
@@ -608,8 +632,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 25,
-    paddingBottom: Platform.OS === 'ios' ? 120 : 100,
-    marginTop: 20, // Separation from abacus shadow
+    paddingBottom: Platform.OS === 'ios' ? 60 : 40,
+    marginTop: 30,
     zIndex: 10,
   },
   sideControls: {
@@ -714,6 +738,22 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '900',
     letterSpacing: 1,
+  },
+  operationDisplay: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  operationLabel: {
+    fontSize: 10,
+    fontWeight: '900',
+    color: '#64748B',
+    letterSpacing: 2,
+    marginBottom: 4,
+  },
+  operationValue: {
+    fontSize: 28,
+    fontWeight: '900',
+    color: COLORS.primary,
   },
 });
 

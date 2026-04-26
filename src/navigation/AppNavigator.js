@@ -14,6 +14,7 @@ import StudentLessonDetail from '../screens/student/StudentLessonDetail.js';
 import AbacusLevelsScreen from '../screens/student/AbacusLevelsScreen.js';
 import AbacusLevelDetail from '../screens/student/AbacusLevelDetail.js';
 import AbacusSimulator from '../screens/student/AbacusSimulator.js';
+import AbacusPracticeSelection from '../screens/student/AbacusPracticeSelection.js';
 import StudentCompetitionDetail from '../screens/student/StudentCompetitionDetail.js';
 import CompetitionArena from '../screens/student/CompetitionArena.js';
 import MentalArithmeticGame from '../screens/student/MentalArithmeticGame.js';
@@ -104,6 +105,7 @@ const AppNavigator = () => {
         <Stack.Screen name="AbacusLevels" component={AbacusLevelsScreen} />
         <Stack.Screen name="AbacusLevelDetail" component={AbacusLevelDetail} />
         <Stack.Screen name="AbacusSimulator" component={AbacusSimulator} />
+        <Stack.Screen name="AbacusPracticeSelection" component={AbacusPracticeSelection} />
         <Stack.Screen name="StudentCourseCurriculum" component={StudentCourseCurriculum} />
         <Stack.Screen name="StudentVideoLesson" component={StudentVideoLesson} />
         <Stack.Screen name="StudentHomework" component={StudentHomework} />
