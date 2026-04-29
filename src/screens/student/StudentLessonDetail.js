@@ -72,9 +72,9 @@ const StudentLessonDetail = ({ navigation, route }) => {
       
       {/* Hero Section */}
       <View style={styles.hero}>
-        <Image source={lesson.image} style={styles.heroImage} resizeMode="contain" />
+        <Image source={lesson.image} style={styles.heroImage} resizeMode="cover" />
         <LinearGradient 
-          colors={['rgba(0,0,0,0.6)', 'transparent', 'rgba(0,0,0,0.8)']}
+          colors={['rgba(0,0,0,0.5)', 'transparent', 'rgba(0,0,0,0.9)']}
           style={StyleSheet.absoluteFill}
         />
         
@@ -90,8 +90,8 @@ const StudentLessonDetail = ({ navigation, route }) => {
         </SafeAreaView>
 
         <View style={styles.heroContent}>
-           <View style={[styles.badge, { backgroundColor: lesson.accent + '30' }]}>
-              <Text style={[styles.badgeText, { color: lesson.accent }]}>MODUL 3 • DARS 12</Text>
+           <View style={styles.badge}>
+              <Text style={styles.badgeText}>MODUL 3 • DARS 12</Text>
            </View>
            <Text style={styles.heroTitle}>{lesson.title}</Text>
            <Text style={styles.heroSub}>{lesson.subtitle}</Text>
@@ -310,8 +310,8 @@ const StudentLessonDetail = ({ navigation, route }) => {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  hero: { height: 320, backgroundColor: '#000' },
-  heroImage: { width: '100%', height: '100%', opacity: 0.7 },
+  hero: { height: 380, backgroundColor: '#000', position: 'relative' },
+  heroImage: { width: '100%', height: '100%', opacity: 0.85 },
   header: { 
     position: 'absolute', 
     top: 0, 
@@ -321,14 +321,69 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between', 
     paddingHorizontal: 20 
   },
-  backBtn: { width: 44, height: 44, borderRadius: 22, backgroundColor: 'rgba(0,0,0,0.3)', justifyContent: 'center', alignItems: 'center' },
+  backBtn: { 
+    width: 48, 
+    height: 48, 
+    borderRadius: 24, 
+    backgroundColor: 'rgba(255,255,255,0.15)', 
+    justifyContent: 'center', 
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.2)',
+  },
   headerActions: { flexDirection: 'row', gap: 10 },
-  actionBtn: { width: 44, height: 44, borderRadius: 22, backgroundColor: 'rgba(0,0,0,0.3)', justifyContent: 'center', alignItems: 'center' },
-  heroContent: { position: 'absolute', bottom: 30, left: 25, right: 25 },
-  badge: { alignSelf: 'flex-start', paddingHorizontal: 10, paddingVertical: 4, borderRadius: 8, marginBottom: 12 },
-  badgeText: { fontSize: 10, fontWeight: '900', letterSpacing: 1 },
-  heroTitle: { fontSize: 32, fontWeight: '900', color: 'white' },
-  heroSub: { fontSize: 16, color: 'rgba(255,255,255,0.8)', marginTop: 4, fontWeight: '600' },
+  actionBtn: { 
+    width: 48, 
+    height: 48, 
+    borderRadius: 24, 
+    backgroundColor: 'rgba(255,255,255,0.15)', 
+    justifyContent: 'center', 
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.2)',
+  },
+  heroContent: { 
+    position: 'absolute', 
+    bottom: 50, 
+    left: 25, 
+    right: 25,
+    zIndex: 5,
+  },
+  badge: { 
+    alignSelf: 'flex-start', 
+    paddingHorizontal: 12, 
+    paddingVertical: 6, 
+    borderRadius: 10, 
+    marginBottom: 12,
+    backgroundColor: 'rgba(255,255,255,0.18)',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.3)',
+    backdropFilter: 'blur(10px)', // For web/future-proof, though RN needs BlurView for real blur
+  },
+  badgeText: { 
+    fontSize: 10, 
+    fontWeight: '800', 
+    letterSpacing: 1,
+    color: 'white',
+    textTransform: 'uppercase',
+  },
+  heroTitle: { 
+    fontSize: 34, 
+    fontWeight: '900', 
+    color: 'white',
+    textShadowColor: 'rgba(0, 0, 0, 0.3)',
+    textShadowOffset: { width: 0, height: 2 },
+    textShadowRadius: 4,
+  },
+  heroSub: { 
+    fontSize: 16, 
+    color: 'rgba(255,255,255,0.9)', 
+    marginTop: 6, 
+    fontWeight: '700',
+    textShadowColor: 'rgba(0, 0, 0, 0.3)',
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 2,
+  },
   mainContent: { flex: 1, marginTop: -30, borderTopLeftRadius: 35, borderTopRightRadius: 35, paddingHorizontal: 25 },
   statsBar: { 
     flexDirection: 'row', 

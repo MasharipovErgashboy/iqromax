@@ -55,7 +55,7 @@ const SubjectCard = ({ item, navigation, isLocked }) => (
       style={styles.cardGradient}
     >
       <View style={[styles.imageBox, { backgroundColor: item.color + '15' }]}>
-        <Image source={item.image} style={styles.subjectImage} resizeMode="contain" />
+        <Image source={item.image} style={styles.subjectImage} resizeMode="cover" />
         {isLocked && (
           <BlurView intensity={20} style={styles.lockOverlay}>
             <View style={styles.lockCircle}>
@@ -307,8 +307,8 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   subjectImage: {
-    width: '70%',
-    height: '70%',
+    width: '100%',
+    height: '100%',
   },
   lockOverlay: {
     ...StyleSheet.absoluteFillObject,

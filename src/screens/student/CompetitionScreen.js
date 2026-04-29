@@ -64,15 +64,6 @@ const CompetitionScreen = ({ navigation }) => {
         <Text style={styles.headerTitle}>Mashqlar Markazi</Text>
         <Text style={styles.headerSubtitle}>Bilimingizni har kuni charxlab boring</Text>
       </View>
-      <View style={styles.headerActions}>
-        <TouchableOpacity style={styles.headerIconBtn}>
-          <Bell color="#1E293B" size={24} />
-          <View style={styles.notifDot} />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.profileBtn}>
-          <Image source={require('../../../assets/avatar_1_new.png')} style={styles.profileAvatar} />
-        </TouchableOpacity>
-      </View>
     </View>
   );
 
@@ -145,71 +136,67 @@ const CompetitionScreen = ({ navigation }) => {
 
   const renderPractice = () => (
     <View style={styles.practiceList}>
-      {/* Mental Arithmetic Card */}
+      {/* Mental Arithmetic - Minimalist Mesh Card */}
       <TouchableOpacity 
-        activeOpacity={0.9} 
-        style={styles.exerciseCard}
+        activeOpacity={0.85} 
+        style={styles.meshCard}
         onPress={() => navigation.navigate('MentalArithmeticPractice')}
       >
-        <LinearGradient colors={['#13C296', '#0A9B78', '#06785D']} style={styles.exerciseGradient}>
-          <View style={styles.exerciseLeft}>
-            <View style={styles.exerciseIconBg}>
-              <Brain color="white" size={28} />
+        <LinearGradient 
+          colors={['#059669', '#064E3B']} 
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={styles.meshGradient}
+        >
+          {/* Abstract Mesh Blobs */}
+          <View style={[styles.meshBlob, { top: -20, right: -30, backgroundColor: '#10B981', opacity: 0.4 }]} />
+          <View style={[styles.meshBlob, { bottom: -40, left: -20, backgroundColor: '#34D399', opacity: 0.2 }]} />
+          
+          <View style={styles.meshContent}>
+            <View style={styles.meshIconContainer}>
+              <Brain color="white" size={32} />
+              <View style={styles.meshIconGlow} />
             </View>
-            <Text style={styles.exerciseTitle}>Mental Arifmetika</Text>
-            <Text style={styles.exerciseDesc}>Xayolan tezkor{'\n'}hisoblashni o'rganing</Text>
             
-            <View style={styles.tagBadge}>
-              <Star color="#FBBF24" size={12} fill="#FBBF24" />
-              <Text style={styles.tagText}>Boshlang'ich</Text>
+            <View style={styles.meshTextContainer}>
+              <View style={styles.meshHeaderRow}>
+                 <Text style={styles.meshTitle}>Mental Arifmetika</Text>
+              </View>
+              <Text style={styles.meshDesc}>Xayolan tezkor hisoblash mahorati</Text>
             </View>
-
-            <TouchableOpacity 
-              style={styles.startBtn}
-              onPress={() => navigation.navigate('MentalArithmeticPractice')}
-            >
-              <Text style={[styles.startBtnText, { color: '#0A9B78' }]}>Boshlash</Text>
-              <ChevronRight color="#0A9B78" size={18} />
-            </TouchableOpacity>
           </View>
-          <Image 
-            source={require('../../../assets/mental_arithmetic_3d.png')} 
-            style={styles.exerciseImage} 
-          />
         </LinearGradient>
       </TouchableOpacity>
 
-      {/* Abacus Card */}
+      {/* Abacus - Minimalist Mesh Card */}
       <TouchableOpacity 
-        activeOpacity={0.9} 
-        style={styles.exerciseCard}
+        activeOpacity={0.85} 
+        style={styles.meshCard}
         onPress={() => navigation.navigate('AbacusPracticeSelection')}
       >
-        <LinearGradient colors={['#8B7AE8', '#6B5BD6', '#5548C8']} style={styles.exerciseGradient}>
-          <View style={styles.exerciseLeft}>
-            <View style={styles.exerciseIconBg}>
-              <Calculator color="white" size={28} />
+        <LinearGradient 
+          colors={['#4F46E5', '#1E1B4B']} 
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={styles.meshGradient}
+        >
+          {/* Abstract Mesh Blobs */}
+          <View style={[styles.meshBlob, { top: -30, right: -20, backgroundColor: '#818CF8', opacity: 0.3 }]} />
+          <View style={[styles.meshBlob, { bottom: -20, left: 20, backgroundColor: '#6366F1', opacity: 0.2 }]} />
+          
+          <View style={styles.meshContent}>
+            <View style={styles.meshIconContainer}>
+              <Calculator color="white" size={32} />
+              <View style={[styles.meshIconGlow, { backgroundColor: '#818CF8' }]} />
             </View>
-            <Text style={styles.exerciseTitle}>Abakus Mashqlari</Text>
-            <Text style={styles.exerciseDesc}>Abakusda mahoratingizni{'\n'}oshiring</Text>
             
-            <View style={styles.tagBadge}>
-              <Star color="#FBBF24" size={12} fill="#FBBF24" />
-              <Text style={styles.tagText}>Boshlang'ich</Text>
+            <View style={styles.meshTextContainer}>
+              <View style={styles.meshHeaderRow}>
+                 <Text style={styles.meshTitle}>Abakus Mashqlari</Text>
+              </View>
+              <Text style={styles.meshDesc}>Abakusda professionallik sari</Text>
             </View>
-
-            <TouchableOpacity 
-              style={styles.startBtn}
-              onPress={() => navigation.navigate('AbacusPracticeSelection')}
-            >
-              <Text style={[styles.startBtnText, { color: '#5548C8' }]}>Boshlash</Text>
-              <ChevronRight color="#5548C8" size={18} />
-            </TouchableOpacity>
           </View>
-          <Image 
-            source={require('../../../assets/abacus_3d.png')} 
-            style={styles.exerciseImage} 
-          />
         </LinearGradient>
       </TouchableOpacity>
     </View>
@@ -266,40 +253,79 @@ const CompetitionScreen = ({ navigation }) => {
      </View>
   );
 
-  const renderStatistics = () => (
-    <View style={styles.statsContainer}>
-      <View style={styles.statGrid}>
-         <View style={styles.statCard}>
+  const renderStatistics = () => {
+    const weeklyData = [
+      { day: 'Du', value: 45 },
+      { day: 'Se', value: 75 },
+      { day: 'Cho', value: 60 },
+      { day: 'Pa', value: 90 },
+      { day: 'Ju', value: 40 },
+      { day: 'Sha', value: 30 },
+      { day: 'Ya', value: 20 },
+    ];
+
+    return (
+      <View style={styles.statsContainer}>
+        <View style={styles.statGrid}>
+          <View style={styles.statCard}>
             <View style={styles.statIconCircle}>
-               <Target color="#10B981" size={24} />
+              <Target color="#10B981" size={24} />
             </View>
             <Text style={styles.statValue}>114</Text>
             <Text style={styles.statLabel}>Jami mashqlar</Text>
-         </View>
-         <View style={styles.statCard}>
+          </View>
+          <View style={styles.statCard}>
             <View style={[styles.statIconCircle, { backgroundColor: '#ECFDF5' }]}>
-               <CheckCircle color="#10B981" size={24} />
+              <CheckCircle color="#10B981" size={24} />
             </View>
             <Text style={styles.statValue}>49%</Text>
             <Text style={styles.statLabel}>Aniqlik</Text>
-         </View>
-         <View style={styles.statCard}>
+          </View>
+          <View style={styles.statCard}>
             <View style={[styles.statIconCircle, { backgroundColor: '#EEF2FF' }]}>
-               <Clock color="#6366F1" size={24} />
+              <Clock color="#6366F1" size={24} />
             </View>
             <Text style={styles.statValue}>9.4s</Text>
             <Text style={styles.statLabel}>O'rtacha vaqt</Text>
-         </View>
-         <View style={styles.statCard}>
+          </View>
+          <View style={styles.statCard}>
             <View style={[styles.statIconCircle, { backgroundColor: '#FFF7ED' }]}>
-               <Flame color="#F97316" size={24} />
+              <Flame color="#F97316" size={24} />
             </View>
             <Text style={styles.statValue}>5</Text>
             <Text style={styles.statLabel}>Eng uzun seriya</Text>
-         </View>
+          </View>
+        </View>
+
+        {/* Weekly Activity Chart */}
+        <View style={styles.chartCard}>
+          <View style={styles.chartHeader}>
+            <View>
+              <Text style={styles.chartTitle}>Haftalik Faollik</Text>
+              <Text style={styles.chartSubtitle}>Oxirgi 7 kunlik ko'rsatkich</Text>
+            </View>
+            <View style={styles.chartPeriodBadge}>
+              <Text style={styles.chartPeriodText}>Shu hafta</Text>
+            </View>
+          </View>
+
+          <View style={styles.chartBody}>
+            {weeklyData.map((item, index) => (
+              <View key={index} style={styles.barWrapper}>
+                <View style={styles.barBackground}>
+                  <LinearGradient
+                    colors={index === 3 ? ['#10B981', '#059669'] : ['#E2E8F0', '#CBD5E1']}
+                    style={[styles.barFill, { height: `${item.value}%` }]}
+                  />
+                </View>
+                <Text style={[styles.barDay, index === 3 && styles.activeBarDay]}>{item.day}</Text>
+              </View>
+            ))}
+          </View>
+        </View>
       </View>
-    </View>
-  );
+    );
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -350,42 +376,6 @@ const styles = StyleSheet.create({
     color: '#64748B',
     fontWeight: '600',
     marginTop: 2,
-  },
-  headerActions: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-  },
-  headerIconBtn: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    backgroundColor: 'white',
-    justifyContent: 'center',
-    alignItems: 'center',
-    ...SHADOWS.light,
-  },
-  notifDot: {
-    position: 'absolute',
-    top: 12,
-    right: 12,
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: '#EF4444',
-    borderWidth: 1.5,
-    borderColor: 'white',
-  },
-  profileBtn: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    ...SHADOWS.light,
-  },
-  profileAvatar: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
   },
   mainContent: {
     paddingHorizontal: 20,
@@ -525,86 +515,90 @@ const styles = StyleSheet.create({
   practiceList: {
     gap: 18,
   },
-  exerciseCard: {
-    borderRadius: 24,
+  meshCard: {
+    borderRadius: 28,
     overflow: 'hidden',
     ...SHADOWS.medium,
+    borderWidth: 1.5,
+    borderColor: 'rgba(255,255,255,0.12)',
   },
-  exerciseGradient: {
+  meshGradient: {
+    padding: 28,
+    minHeight: 140,
+    position: 'relative',
+    justifyContent: 'center',
+  },
+  meshBlob: {
+    position: 'absolute',
+    width: 180,
+    height: 180,
+    borderRadius: 90,
+  },
+  meshContent: {
     flexDirection: 'row',
-    paddingLeft: 22,
-    paddingTop: 22,
-    paddingBottom: 0,
-    paddingRight: 0,
-    minHeight: 195,
-    alignItems: 'flex-end',
-  },
-  exerciseLeft: {
-    flex: 1,
+    alignItems: 'center',
     zIndex: 2,
-    paddingBottom: 22,
-    paddingRight: 8,
   },
-  exerciseIconBg: {
-    width: 50,
-    height: 50,
-    borderRadius: 14,
-    backgroundColor: 'rgba(255,255,255,0.2)',
+  meshIconContainer: {
+    width: 68,
+    height: 68,
+    borderRadius: 22,
+    backgroundColor: 'rgba(255,255,255,0.15)',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 10,
+    marginRight: 20,
+    position: 'relative',
   },
-  exerciseTitle: {
-    fontSize: 20,
-    fontWeight: '900',
-    color: 'white',
-    marginBottom: 4,
+  meshIconGlow: {
+    position: 'absolute',
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: '#34D399',
+    opacity: 0.35,
+    zIndex: -1,
   },
-  exerciseDesc: {
-    fontSize: 13,
-    color: 'rgba(255,255,255,0.85)',
-    fontWeight: '600',
-    marginBottom: 12,
-    lineHeight: 18,
-  },
-  tagBadge: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'rgba(255,255,255,0.2)',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 8,
+  meshTextContainer: {
+    flex: 1,
     gap: 4,
-    alignSelf: 'flex-start',
-    marginBottom: 16,
   },
-  tagText: {
-    color: 'white',
-    fontSize: 10,
-    fontWeight: '900',
-    letterSpacing: 0.5,
-  },
-  startBtn: {
-    backgroundColor: 'white',
+  meshHeaderRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 18,
-    paddingVertical: 11,
-    borderRadius: 16,
-    gap: 6,
-    alignSelf: 'flex-start',
-    ...SHADOWS.light,
+    gap: 12,
+    marginBottom: 2,
   },
-  startBtnText: {
-    fontSize: 14,
+  meshTitle: {
+    fontSize: 21,
     fontWeight: '900',
-    color: '#0F172A',
+    color: 'white',
+    letterSpacing: 0.3,
   },
-  exerciseImage: {
-    width: 160,
-    height: 175,
-    resizeMode: 'contain',
-    alignSelf: 'flex-end',
+  meshDesc: {
+    fontSize: 14,
+    color: 'rgba(255,255,255,0.75)',
+    fontWeight: '600',
+    lineHeight: 19,
+  },
+  chartCard: {
+    backgroundColor: 'white',
+    borderRadius: 24,
+    padding: 20,
+    marginTop: 20,
+    ...SHADOWS.light,
+    borderWidth: 1,
+    borderColor: '#F1F5F9',
+  },
+  chartHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    marginBottom: 25,
+  },
+  chartTitle: {
+    fontSize: 18,
+    fontWeight: '800',
+    color: '#0F172A',
   },
   leaderboardContainer: {
     paddingBottom: 20,
@@ -742,6 +736,76 @@ const styles = StyleSheet.create({
     color: '#64748B',
     fontWeight: '700',
     marginTop: 4,
+  },
+  chartCard: {
+    backgroundColor: 'white',
+    borderRadius: 24,
+    padding: 20,
+    marginTop: 20,
+    ...SHADOWS.light,
+    borderWidth: 1,
+    borderColor: '#F1F5F9',
+  },
+  chartHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    marginBottom: 25,
+  },
+  chartTitle: {
+    fontSize: 18,
+    fontWeight: '800',
+    color: '#0F172A',
+  },
+  chartSubtitle: {
+    fontSize: 12,
+    color: '#64748B',
+    fontWeight: '600',
+    marginTop: 2,
+  },
+  chartPeriodBadge: {
+    backgroundColor: '#F0FDF4',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 10,
+  },
+  chartPeriodText: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#10B981',
+  },
+  chartBody: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
+    height: 160,
+    paddingHorizontal: 5,
+  },
+  barWrapper: {
+    alignItems: 'center',
+    flex: 1,
+  },
+  barBackground: {
+    width: 12,
+    height: 120,
+    backgroundColor: '#F1F5F9',
+    borderRadius: 6,
+    justifyContent: 'flex-end',
+    overflow: 'hidden',
+  },
+  barFill: {
+    width: '100%',
+    borderRadius: 6,
+  },
+  barDay: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#94A3B8',
+    marginTop: 10,
+  },
+  activeBarDay: {
+    color: '#0F172A',
+    fontWeight: '900',
   },
 });
 

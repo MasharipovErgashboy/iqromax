@@ -75,30 +75,38 @@ const StudentHome = ({ navigation, route }) => {
 
         {/* Main "Start Lesson" Hero Area */}
         <View style={styles.heroSection}>
-          <LinearGradient
-            colors={['#4ade80', '#22c55e']}
-            style={styles.heroGradient}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
+          <TouchableOpacity 
+            activeOpacity={0.9} 
+            onPress={() => navigation.navigate('Subjects')}
+            style={styles.heroTouch}
           >
-            <View style={styles.heroContent}>
-              <Text style={styles.heroTitle}>Darsni davom ettirishga tayyormisan?</Text>
-              <Text style={styles.heroSub}>Bugun +250 XP ishlash imkoniyati bor!</Text>
+            <LinearGradient
+              colors={['#10B981', '#059669']}
+              style={styles.heroGradient}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+            >
+              {/* Abstract Mesh Blobs */}
+              <View style={[styles.meshBlob, { top: -40, right: -20, backgroundColor: 'rgba(255,255,255,0.2)', opacity: 0.3 }]} />
+              <View style={[styles.meshBlob, { bottom: -60, left: -30, backgroundColor: 'rgba(255,255,255,0.1)', opacity: 0.2 }]} />
               
-              <GamifiedButton 
-                title="DARSNI BOSHLASH"
-                onPress={() => navigation.navigate('Subjects')}
-                color={COLORS.white}
-                textStyle={{ color: COLORS.primary, fontSize: 16 }}
-                style={styles.heroButton}
-              />
-            </View>
-            <Image
-              source={require('../../../assets/abacus_3d.png')}
-              style={styles.heroImage}
-              resizeMode="contain"
-            />
-          </LinearGradient>
+              <View style={styles.heroContent}>
+                <View style={styles.heroBadge}>
+                  <Zap color="white" size={12} fill="white" />
+                  <Text style={styles.heroBadgeText}>FAOL MASHG'ULOT</Text>
+                </View>
+                <Text style={styles.heroTitle}>Darsni davom ettirishga tayyormisan?</Text>
+                <Text style={styles.heroSub}>Bugun +250 XP ishlash imkoniyati bor!</Text>
+                
+                <View style={styles.heroActionRow}>
+                  <View style={styles.heroButtonMock}>
+                    <Text style={styles.heroButtonText}>DARSNI BOSHLASH</Text>
+                    <PlayCircle color="white" size={20} />
+                  </View>
+                </View>
+              </View>
+            </LinearGradient>
+          </TouchableOpacity>
         </View>
 
         {/* Stats Summary Grid */}
@@ -256,44 +264,78 @@ const styles = StyleSheet.create({
   },
   heroSection: {
     marginBottom: SPACING.xl,
-    borderRadius: BORDER_RADIUS.xxl || 32,
+    borderRadius: 32,
     overflow: 'hidden',
     ...SHADOWS.medium,
   },
+  heroTouch: {
+    flex: 1,
+  },
   heroGradient: {
-    padding: SPACING.xl,
-    flexDirection: 'row',
-    alignItems: 'center',
+    padding: 25,
     minHeight: 180,
+    position: 'relative',
+    justifyContent: 'center',
+  },
+  meshBlob: {
+    position: 'absolute',
+    width: 200,
+    height: 200,
+    borderRadius: 100,
   },
   heroContent: {
-    flex: 1,
     zIndex: 2,
   },
+  heroBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 10,
+    alignSelf: 'flex-start',
+    marginBottom: 12,
+  },
+  heroBadgeText: {
+    color: 'white',
+    fontSize: 10,
+    fontWeight: '900',
+    letterSpacing: 1,
+  },
   heroTitle: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: '900',
     color: COLORS.white,
+    lineHeight: 30,
     marginBottom: 8,
   },
   heroSub: {
-    fontSize: 12,
-    color: COLORS.white,
-    opacity: 0.9,
-    marginBottom: SPACING.lg,
+    fontSize: 13,
+    color: 'rgba(255,255,255,0.85)',
+    fontWeight: '600',
+    marginBottom: 20,
   },
-  heroButton: {
-    paddingVertical: SPACING.sm,
-    paddingHorizontal: SPACING.lg,
-    alignSelf: 'flex-start',
+  heroActionRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
-  heroImage: {
-    width: 120,
-    height: 120,
-    position: 'absolute',
-    right: -10,
-    bottom: -10,
-    opacity: 0.8,
+  heroButtonMock: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(255,255,255,0.15)',
+    paddingHorizontal: 18,
+    paddingVertical: 12,
+    borderRadius: 16,
+    gap: 10,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.3)',
+  },
+  heroButtonText: {
+    color: 'white',
+    fontSize: 14,
+    fontWeight: '900',
+    letterSpacing: 0.5,
   },
   statsGrid: {
     flexDirection: 'row',
