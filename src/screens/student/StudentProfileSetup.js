@@ -17,10 +17,10 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useLevels } from '../../context/LevelContext.js';
 
 const AVATARS = [
-  require('../../../assets/avatar_1_new.png'),
-  require('../../../assets/avatar_2_new.png'),
-  require('../../../assets/avatar_3_new.png'),
-  require('../../../assets/avatar_4_new.png'),
+  require('../../../assets/avatar_child_1.png'),
+  require('../../../assets/avatar_child_2.png'),
+  require('../../../assets/avatar_child_3.png'),
+  require('../../../assets/avatar_child_4.png'),
 ];
 
 const StudentProfileSetup = ({ navigation }) => {

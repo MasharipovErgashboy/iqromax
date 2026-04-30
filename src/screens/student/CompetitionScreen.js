@@ -10,7 +10,8 @@ import {
   Dimensions, 
   Animated,
   Platform,
-  StatusBar
+  StatusBar,
+  ImageBackground
 } from 'react-native';
 import { COLORS, SPACING, BORDER_RADIUS, SHADOWS } from '../../constants/theme.js';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -34,11 +35,11 @@ import {
 const { width } = Dimensions.get('window');
 
 const LEADERBOARD = [
-  { id: '1', name: 'Azizbek K.', xp: 4520, rank: 1, avatar: require('../../../assets/avatar_1_new.png') },
-  { id: '2', name: 'Madina O.', xp: 4380, rank: 2, avatar: require('../../../assets/avatar_2_new.png') },
-  { id: '3', name: 'Jasur S.', xp: 4100, rank: 3, avatar: require('../../../assets/avatar_3_new.png') },
-  { id: '4', name: 'Sardor M.', xp: 3800, rank: 4, avatar: require('../../../assets/avatar_4_new.png') },
-  { id: '5', name: 'Lola T.', xp: 3550, rank: 5, avatar: require('../../../assets/mascot.png') },
+  { id: '1', name: 'Azizbek K.', xp: 4520, rank: 1, avatar: require('../../../assets/avatar_child_1.png') },
+  { id: '2', name: 'Madina O.', xp: 4380, rank: 2, avatar: require('../../../assets/avatar_child_2.png') },
+  { id: '3', name: 'Jasur S.', xp: 4100, rank: 3, avatar: require('../../../assets/avatar_child_3.png') },
+  { id: '4', name: 'Sardor M.', xp: 3800, rank: 4, avatar: require('../../../assets/avatar_child_4.png') },
+  { id: '5', name: 'Lola T.', xp: 3550, rank: 5, avatar: require('../../../assets/avatar_child_2.png') },
 ];
 
 const CompetitionScreen = ({ navigation }) => {
@@ -136,68 +137,68 @@ const CompetitionScreen = ({ navigation }) => {
 
   const renderPractice = () => (
     <View style={styles.practiceList}>
-      {/* Mental Arithmetic - Minimalist Mesh Card */}
+      {/* Mental Arithmetic - Custom 3D Card */}
       <TouchableOpacity 
-        activeOpacity={0.85} 
-        style={styles.meshCard}
+        activeOpacity={0.9} 
+        style={styles.practiceCard}
         onPress={() => navigation.navigate('MentalArithmeticPractice')}
       >
-        <LinearGradient 
-          colors={['#059669', '#064E3B']} 
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-          style={styles.meshGradient}
+        <ImageBackground 
+          source={require('../../../assets/mental_arithmetic_practice_banner.png')}
+          style={styles.practiceBg}
+          imageStyle={{ borderRadius: 28 }}
         >
-          {/* Abstract Mesh Blobs */}
-          <View style={[styles.meshBlob, { top: -20, right: -30, backgroundColor: '#10B981', opacity: 0.4 }]} />
-          <View style={[styles.meshBlob, { bottom: -40, left: -20, backgroundColor: '#34D399', opacity: 0.2 }]} />
-          
-          <View style={styles.meshContent}>
-            <View style={styles.meshIconContainer}>
-              <Brain color="white" size={32} />
-              <View style={styles.meshIconGlow} />
-            </View>
-            
-            <View style={styles.meshTextContainer}>
-              <View style={styles.meshHeaderRow}>
-                 <Text style={styles.meshTitle}>Mental Arifmetika</Text>
+          <View style={styles.practiceContent}>
+            <View style={styles.practiceTextSection}>
+              <Text style={styles.practiceTitle} numberOfLines={1}>Mental Arifmetika</Text>
+              <Text style={styles.practiceDesc}>Xayolan tezkor hisoblashni o'rganing</Text>
+              
+              <View style={styles.practiceBadge}>
+                <Star color="#F59E0B" fill="#F59E0B" size={14} />
+                <Text style={styles.practiceBadgeText}>Boshlang'ich</Text>
               </View>
-              <Text style={styles.meshDesc}>Xayolan tezkor hisoblash mahorati</Text>
+            </View>
+
+            <View style={styles.practiceActionRow}>
+               <View style={styles.practiceButton}>
+                  <Text style={[styles.practiceButtonText, { color: '#059669' }]}>Boshlash</Text>
+                  <ChevronRight color="#059669" size={18} />
+               </View>
             </View>
           </View>
-        </LinearGradient>
+        </ImageBackground>
       </TouchableOpacity>
 
-      {/* Abacus - Minimalist Mesh Card */}
+      {/* Abacus - Custom 3D Card */}
       <TouchableOpacity 
-        activeOpacity={0.85} 
-        style={styles.meshCard}
+        activeOpacity={0.9} 
+        style={styles.practiceCard}
         onPress={() => navigation.navigate('AbacusPracticeSelection')}
       >
-        <LinearGradient 
-          colors={['#4F46E5', '#1E1B4B']} 
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-          style={styles.meshGradient}
+        <ImageBackground 
+          source={require('../../../assets/abacus_practice_banner.png')}
+          style={styles.practiceBg}
+          imageStyle={{ borderRadius: 28 }}
         >
-          {/* Abstract Mesh Blobs */}
-          <View style={[styles.meshBlob, { top: -30, right: -20, backgroundColor: '#818CF8', opacity: 0.3 }]} />
-          <View style={[styles.meshBlob, { bottom: -20, left: 20, backgroundColor: '#6366F1', opacity: 0.2 }]} />
-          
-          <View style={styles.meshContent}>
-            <View style={styles.meshIconContainer}>
-              <Calculator color="white" size={32} />
-              <View style={[styles.meshIconGlow, { backgroundColor: '#818CF8' }]} />
-            </View>
-            
-            <View style={styles.meshTextContainer}>
-              <View style={styles.meshHeaderRow}>
-                 <Text style={styles.meshTitle}>Abakus Mashqlari</Text>
+          <View style={styles.practiceContent}>
+            <View style={styles.practiceTextSection}>
+              <Text style={styles.practiceTitle} numberOfLines={1}>Abakus Mashqlari</Text>
+              <Text style={styles.practiceDesc}>Abakusda mahoratingizni oshiring</Text>
+              
+              <View style={styles.practiceBadge}>
+                <Star color="#F59E0B" fill="#F59E0B" size={14} />
+                <Text style={styles.practiceBadgeText}>Boshlang'ich</Text>
               </View>
-              <Text style={styles.meshDesc}>Abakusda professionallik sari</Text>
+            </View>
+
+            <View style={styles.practiceActionRow}>
+               <View style={styles.practiceButton}>
+                  <Text style={styles.practiceButtonText}>Boshlash</Text>
+                  <ChevronRight color="#4F46E5" size={18} />
+               </View>
             </View>
           </View>
-        </LinearGradient>
+        </ImageBackground>
       </TouchableOpacity>
     </View>
   );
@@ -513,72 +514,70 @@ const styles = StyleSheet.create({
     fontWeight: '800',
   },
   practiceList: {
-    gap: 18,
+    gap: 12,
   },
-  meshCard: {
+  practiceCard: {
     borderRadius: 28,
     overflow: 'hidden',
     ...SHADOWS.medium,
-    borderWidth: 1.5,
-    borderColor: 'rgba(255,255,255,0.12)',
   },
-  meshGradient: {
-    padding: 28,
-    minHeight: 140,
-    position: 'relative',
+  practiceBg: {
+    width: '100%',
+    height: 190,
     justifyContent: 'center',
   },
-  meshBlob: {
-    position: 'absolute',
-    width: 180,
-    height: 180,
-    borderRadius: 90,
+  practiceContent: {
+    paddingLeft: 84, 
+    paddingRight: '35%',
+    gap: 10,
   },
-  meshContent: {
+  practiceTextSection: {
+    gap: 1,
+  },
+  practiceTitle: {
+    fontSize: 16,
+    fontWeight: '800',
+    color: 'white',
+    letterSpacing: -0.2,
+  },
+  practiceDesc: {
+    fontSize: 11,
+    color: 'rgba(255,255,255,0.85)',
+    fontWeight: '600',
+  },
+  practiceBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    zIndex: 2,
-  },
-  meshIconContainer: {
-    width: 68,
-    height: 68,
-    borderRadius: 22,
-    backgroundColor: 'rgba(255,255,255,0.15)',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 20,
-    position: 'relative',
-  },
-  meshIconGlow: {
-    position: 'absolute',
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    backgroundColor: '#34D399',
-    opacity: 0.35,
-    zIndex: -1,
-  },
-  meshTextContainer: {
-    flex: 1,
+    alignSelf: 'flex-start',
+    backgroundColor: 'rgba(255,255,255,0.12)',
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 8,
     gap: 4,
   },
-  meshHeaderRow: {
+  practiceBadgeText: {
+    color: 'white',
+    fontSize: 10,
+    fontWeight: '800',
+  },
+  practiceActionRow: {
+    // No margin to maintain perfect centering
+  },
+  practiceButton: {
+    backgroundColor: 'white',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 10,
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 12,
-    marginBottom: 2,
+    alignSelf: 'flex-start',
+    gap: 5,
+    ...SHADOWS.light,
   },
-  meshTitle: {
-    fontSize: 21,
+  practiceButtonText: {
+    color: '#4F46E5',
+    fontSize: 11,
     fontWeight: '900',
-    color: 'white',
-    letterSpacing: 0.3,
-  },
-  meshDesc: {
-    fontSize: 14,
-    color: 'rgba(255,255,255,0.75)',
-    fontWeight: '600',
-    lineHeight: 19,
   },
   chartCard: {
     backgroundColor: 'white',
