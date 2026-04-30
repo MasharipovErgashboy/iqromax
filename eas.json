@@ -18,9 +18,6 @@
       "channel": "production"
     }
   },
-  "updates": {
-    "url": "https://u.expo.dev/2113e76b-f516-47b9-964f-23e7ebab45a8"
-  },
   "submit": {
     "production": {}
   }
