@@ -33,11 +33,11 @@ import StudentPremiumBackground from '../../components/StudentPremiumBackground'
 const { width } = Dimensions.get('window');
 
 const TEACHERS = [
-  { id: '1', name: 'Shoxruh', avatar: require('../../../assets/avatar_blue.png'), active: true },
-  { id: '2', name: 'Madina', avatar: require('../../../assets/avatar_red.png'), active: true },
-  { id: '3', name: 'Aziz', avatar: require('../../../assets/avatar_yellow.png'), active: false },
-  { id: '4', name: 'Kamola', avatar: require('../../../assets/avatar_blue.png'), active: true },
-  { id: '5', name: 'Alisher', avatar: require('../../../assets/avatar_red.png'), active: false },
+  { id: '1', name: 'Shoxruh', avatar: require('../../../assets/avatar_child_1.png'), active: true },
+  { id: '2', name: 'Madina', avatar: require('../../../assets/avatar_child_2.png'), active: true },
+  { id: '3', name: 'Aziz', avatar: require('../../../assets/avatar_child_3.png'), active: false },
+  { id: '4', name: 'Kamola', avatar: require('../../../assets/avatar_child_4.png'), active: true },
+  { id: '5', name: 'Alisher', avatar: require('../../../assets/avatar_child_1.png'), active: false },
 ];
 
 const LIVE_DATA = [
@@ -48,7 +48,7 @@ const LIVE_DATA = [
     teacher: 'Shoxruh Ustoz',
     viewers: 245,
     rating: 4.9,
-    image: require('../../../assets/live_promo.png'),
+    image: require('../../../assets/mental_arithmetic_practice_banner.png'),
     accent: '#22C55E'
   },
   {
@@ -58,7 +58,7 @@ const LIVE_DATA = [
     teacher: 'Madina Ustoz',
     viewers: 180,
     rating: 5.0,
-    image: require('../../../assets/games_promo.png'),
+    image: require('../../../assets/abacus_practice_banner.png'),
     accent: '#F59E0B'
   }
 ];
@@ -298,7 +298,7 @@ const LiveScreen = ({ navigation }) => {
                 onPress={() => navigation.navigate('LiveLessonDetail', { lesson: { title: 'Sanoq tizimi' } })}
                 style={[styles.masonryCard, { height: 160 }]}
               >
-                <Image source={require('../../../assets/avatar_blue.png')} style={styles.masonryImg} />
+                <Image source={require('../../../assets/avatar_child_1.png')} style={styles.masonryImg} />
                 <LinearGradient colors={['transparent', 'rgba(0,0,0,0.6)']} style={styles.masonryOverlay}>
                   <Text style={styles.masonryTitle}>Sanoq tizimi</Text>
                 </LinearGradient>
@@ -309,7 +309,7 @@ const LiveScreen = ({ navigation }) => {
                 onPress={() => navigation.navigate('LiveLessonDetail', { lesson: { title: 'Mantiq' } })}
                 style={[styles.masonryCard, { height: 170 }]}
               >
-                <Image source={require('../../../assets/games_promo.png')} style={styles.masonryImg} />
+                <Image source={require('../../../assets/math_games_no_owl.png')} style={styles.masonryImg} />
                 <LinearGradient colors={['transparent', 'rgba(0,0,0,0.6)']} style={styles.masonryOverlay}>
                   <Text style={styles.masonryTitle}>Mantiq</Text>
                 </LinearGradient>
@@ -318,7 +318,7 @@ const LiveScreen = ({ navigation }) => {
                 onPress={() => navigation.navigate('LiveLessonDetail', { lesson: { title: 'Amaliyot' } })}
                 style={[styles.masonryCard, { height: 210 }]}
               >
-                <Image source={require('../../../assets/live_promo.png')} style={styles.masonryImg} />
+                <Image source={require('../../../assets/mental_arithmetic_practice_banner.png')} style={styles.masonryImg} />
                 <LinearGradient colors={['transparent', 'rgba(0,0,0,0.6)']} style={styles.masonryOverlay}>
                   <Text style={styles.masonryTitle}>Amaliyot</Text>
                 </LinearGradient>
