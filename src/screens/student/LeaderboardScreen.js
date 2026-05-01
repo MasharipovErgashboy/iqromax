@@ -14,11 +14,10 @@ import { Trophy, Medal, Award, Crown } from 'lucide-react-native';
 import StudentPremiumBackground from '../../components/StudentPremiumBackground';
 
 const LEADERBOARD_DATA = [
-  { id: '1', name: 'Ali', xp: 12500, rank: 1, avatar: require('../../../assets/avatar_blue.png') },
-  { id: '2', name: 'Zarina', xp: 11200, rank: 2, avatar: require('../../../assets/avatar_red.png') },
-  { id: '3', name: 'Bekzod', xp: 10800, rank: 3, avatar: require('../../../assets/avatar_yellow.png') },
-  { id: '4', name: 'Siz', xp: 450, rank: 4, avatar: require('../../../assets/mascot.png') },
-  // Qo'shimcha ma'lumotlar
+  { id: '1', name: 'Ali', xp: 12500, rank: 1, avatar: require('../../../assets/avatar_child_1.png') },
+  { id: '2', name: 'Zarina', xp: 11200, rank: 2, avatar: require('../../../assets/avatar_child_2.png') },
+  { id: '3', name: 'Bekzod', xp: 10800, rank: 3, avatar: require('../../../assets/avatar_child_3.png') },
+  { id: '4', name: 'Siz', xp: 450, rank: 4, avatar: require('../../../assets/avatar_child_4.png') },
 ];
 
 const LeaderboardItem = ({ item, index }) => {
