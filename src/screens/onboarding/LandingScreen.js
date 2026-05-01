@@ -28,7 +28,7 @@ const SLIDES = [
   },
   {
     id: '2',
-    image: require('../../../assets/math_games_live.png'),
+    image: require('../../../assets/math_games_no_owl.png'),
     title: 'Qiziqarli O\'yinlar',
     subtitle: 'O\'yin orqali bilim olish — eng samarali yo\'l',
     color: '#FFFBEB',
