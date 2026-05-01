@@ -48,7 +48,7 @@ const LIVE_DATA = [
     teacher: 'Shoxruh Ustoz',
     viewers: 245,
     rating: 4.9,
-    image: require('../../../assets/mental_arithmetic_practice_banner.png'),
+    image: require('../../../assets/live_class_live.png'),
     accent: '#22C55E'
   },
   {
@@ -458,7 +458,7 @@ const styles = StyleSheet.create({
   previewImage: {
     width: '100%',
     height: '100%',
-    opacity: 0.8,
+    opacity: 1.0,
   },
   previewOverlay: {
     ...StyleSheet.absoluteFillObject,
