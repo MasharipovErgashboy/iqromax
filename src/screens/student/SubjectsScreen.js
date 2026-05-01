@@ -25,23 +25,25 @@ const ITEMS_PER_PAGE = 10;
 
 const ASSETS = {
   abacus: require('../../../assets/abacus_3d.png'),
-  blue: require('../../../assets/avatar_blue.png'),
-  red: require('../../../assets/avatar_red.png'),
-  yellow: require('../../../assets/avatar_yellow.png'),
-  mascot: require('../../../assets/mascot.png'),
+  reading: require('../../../assets/avatar_child_1.png'),
+  logic: require('../../../assets/avatar_child_2.png'),
+  math: require('../../../assets/avatar_child_3.png'),
+  creative: require('../../../assets/avatar_child_4.png'),
+  tech: require('../../../assets/math_games_no_owl.png'),
+  mental: require('../../../assets/mental_arithmetic_3d.png'),
 };
 
 const ALL_SUBJECTS = [
   { id: '1', title: 'Mental Arifmetika 1', image: ASSETS.abacus, color: '#10B981', cat: 'Matematika', progress: 0.65 },
-  { id: '2', title: 'Tez O\'qish', image: ASSETS.blue, color: '#3B82F6', cat: 'Tillar', progress: 0.4 },
-  { id: '3', title: 'Mantiqiy o\'yinlar', image: ASSETS.red, color: '#EF4444', cat: 'Mantiq', progress: 0.1 },
-  { id: '4', title: 'Karra jadvali', image: ASSETS.yellow, color: '#F59E0B', cat: 'Matematika', progress: 1.0 },
-  { id: '5', title: 'Robototexnika', image: ASSETS.mascot, color: '#6366F1', cat: 'IT', progress: 0 },
-  { id: '6', title: 'Mental Arifmetika 2', image: ASSETS.abacus, color: '#10B981', cat: 'Matematika', progress: 0.2 },
-  { id: '7', title: 'Ingliz tili', image: ASSETS.blue, color: '#3B82F6', cat: 'Tillar', progress: 0.8 },
-  { id: '8', title: 'Kalligrafiya', image: ASSETS.red, color: '#EF4444', cat: 'San\'at', progress: 0.15 },
-  { id: '9', title: 'Scratch', image: ASSETS.yellow, color: '#F59E0B', cat: 'IT', progress: 0.3 },
-  { id: '10', title: 'Astronomiya', image: ASSETS.mascot, color: '#6366F1', cat: 'Fan', progress: 0 },
+  { id: '2', title: 'Tez O\'qish', image: ASSETS.reading, color: '#3B82F6', cat: 'Tillar', progress: 0.4 },
+  { id: '3', title: 'Mantiqiy o\'yinlar', image: ASSETS.logic, color: '#EF4444', cat: 'Mantiq', progress: 0.1 },
+  { id: '4', title: 'Karra jadvali', image: ASSETS.math, color: '#F59E0B', cat: 'Matematika', progress: 1.0 },
+  { id: '5', title: 'Robototexnika', image: ASSETS.tech, color: '#6366F1', cat: 'IT', progress: 0 },
+  { id: '6', title: 'Mental Arifmetika 2', image: ASSETS.mental, color: '#10B981', cat: 'Matematika', progress: 0.2 },
+  { id: '7', title: 'Ingliz tili', image: ASSETS.reading, color: '#3B82F6', cat: 'Tillar', progress: 0.8 },
+  { id: '8', title: 'Kalligrafiya', image: ASSETS.creative, color: '#EF4444', cat: 'San\'at', progress: 0.15 },
+  { id: '9', title: 'Scratch', image: ASSETS.tech, color: '#F59E0B', cat: 'IT', progress: 0.3 },
+  { id: '10', title: 'Astronomiya', image: ASSETS.creative, color: '#6366F1', cat: 'Fan', progress: 0 },
 ];
 
 const SubjectCard = ({ item, navigation, isLocked }) => (
